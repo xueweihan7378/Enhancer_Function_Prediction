@@ -116,3 +116,43 @@ EH37E0437000    HUMAN|HGNC=7809|UniProtKB=P08138        30      1       1.779063
 EH37E0144960    HUMAN|HGNC=4693|UniProtKB=Q16774        30      2       1.25198213681103        0.869468172454407       0.55946003807489
 EH37E0594856    HUMAN|HGNC=15791|UniProtKB=Q9H490       30      1       2.65776484772833        0.264773        1.15277162693404
 ```
+### Feature 6: eQTL averaged coefficient (absolute values of original coefficients)
+Download the eQTL all_pairs file from GTEx (https://gtexportal.org/home/datasets) for the tissue of interest (click on GTEx Analysis V7 on the lefthand menu and select the relevant tissue under the Tissue-Specific All SNP Gene Associations aectioin) and use this perl script to separate it by chromosomes (this is a speed/memory tip):
+```
+$ perl splitv4.pl Artery_Coronary.allpairs.txt
+```
+Then run the following script in R (but make sure to change the file names to match whatever tissue you're working on and the directory to wherever the files are located).
+```
+eqtl.R
+```
+Then execute this file (but make sure to change the file names to match whatever tissue you're working on and the directory to wherever the files are located):
+```
+$ ./all_eqtl_bash.sh
+```
+which contains this for each chromosome:
+```
+perl eqtlprocessv2.pl breastcoeffnewdata1.txt chr1Breast_Mammary_Tissue_eqtl_all 
+perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
+perl eliminateoverlapeqtlv2.pl chr1Breast_Mammary_Tissue_eqtls exons_genes.txt chr1Breast_Mammary_Tissue_eqtl2 overlaps unmatched 
+bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b chr1Breast_Mammary_Tissue_eqtl2 > chr1Breast_Mammary_Tissue_intersect
+perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtlcoeff tissuetable_10092018.txt pantherGeneList.txt 
+rm chr1Breast_Mammary_Tissue_eqtl_all 
+rm chr1Breast_Mammary_Tissue_eqtls
+rm chr1Breast_Mammary_Tissue_eqtl2
+rm chr1Breast_Mammary_Tissue_intersect 
+```
+At the end, the links_chr()Breast_Mammary_Tissue_eqtlcoeff files are concatenated into file Breast_links_eqtlcoeff.  
+```
+cat links_chr*Breast_Mammary_Tissue_eqtlcoeff > Breast_links_eqtlcoeff
+```
+Then run the following perl script.
+```
+$ perl eqtlcoeff.pl Liver_links_eqtlcoeff Liver_links_eqtlnum pre_eQTL_Liver_links_coeff_abs yes
+```
+The output file has the format:
+```
+$ head pre_eQTL_Liver_links_coeff_abs
+EH37E0617026    HUMAN|HGNC=1911|UniProtKB=Q13112        30      3       0.0466321523333333
+EH37E0489983    HUMAN|HGNC=18753|UniProtKB=Q8NI29       30      2       0.4264625
+EH37E0086258    HUMAN|HGNC=11732|UniProtKB=Q96S53       30      1       0.0273263
+```
