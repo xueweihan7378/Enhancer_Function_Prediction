@@ -171,3 +171,55 @@ EH37E0617026    HUMAN|HGNC=1911|UniProtKB=Q13112        30      3       0.046632
 EH37E0489983    HUMAN|HGNC=18753|UniProtKB=Q8NI29       30      2       0.4264625
 EH37E0086258    HUMAN|HGNC=11732|UniProtKB=Q96S53       30      1       0.0273263
 ```
+### Feature 7: H3K27ac for promoters:
+The file promoters is the promoters of the genes. The bed file is the same one used for enhancers.
+```
+$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a promoters -b ENCFF825NBZ.bed > H3K27acgenes_HepG2_int
+$ perl p300bindinggenes.pl H3K27acgenes_HepG2_int H3K27ac_HepG2_genes H3K27ac pantherGeneList.txt HepG2
+```
+The output file format is:
+```
+$ head H3K27ac_HepG2_genes
+HUMAN|HGNC=24517|UniProtKB=Q9Y3T9       3.29504 H3K27ac HepG2
+HUMAN|HGNC=24023|UniProtKB=Q6TDP4       14.20247        H3K27ac HepG2
+HUMAN|HGNC=24023|UniProtKB=Q6TDP4       3.29504 H3K27ac HepG2
+```
+### Feature 8: to find the closest gene to each enhancer
+```
+$ sort -k1,1 -k2,2n CREbedDBenhancers_10092018 > sortedCRE
+$ sort -k1,1 -k2,2n genes.bed > sortedgenes
+$ bedtools closest -a sortedCRE -b sortedgenes > closestgenes
+$ perl closestgenes.pl closestgenes closest__genes pantherGeneListall.txt genes.txt
+```
+The output file format is:
+```
+$ head closest__genes
+1       HUMAN|HGNC=15846|UniProtKB=Q9NP74       closest_genes   HepG2
+10      HUMAN|HGNC=40020|UniProtKB=E7ERA6       closest_genes   HepG2
+1000    HUMAN|HGNC=29408|UniProtKB=B1AJZ9       closest_genes   HepG2
+10000   HUMAN|HGNC=19622|UniProtKB=Q8NG78       closest_genes   HepG2
+10001   HUMAN|HGNC=8477|UniProtKB=Q15620        closest_genes   HepG2
+```
+### Feature 9: intronic? 0=no, 1=yes, target gene 2=yes, different gene
+First we need to organize the exons file exons_genes.txt so that we have all the exons grouped together by gene and in order:
+```
+$ perl exons.pl exons_genes.txt sorted_exons
+```
+Now we can pull the introns:
+```
+$ perl introns.pl sorted_exons intronz
+$ sort intronz| uniq > introns
+```
+Now we can use bedtools intersect to get the enhancers that are intronic.
+```
+$ bedtools intersect -wa -wb -f 0.33 -a CREbedDBenhancers_10092018 -b introns > intronic_enh
+```
+The output file has the format:
+```
+$ head intronic_enh
+chr1    100104444       100104686       2       chr1    100104415       100104761       ENSG00000007952.13
+chr1    100113534       100114036       3       chr1    100106314       100117160       ENSG00000007952.13
+chr1    100169951       100170218       7       chr1    100166438       100172334       ENSG00000036530.4
+chr1    100169951       100170218       7       chr1    100166438       100172984       ENSG00000036530.4
+chr1    100422351       100422596       8       chr1    100404050       100441812       ENSG00000152034.6
+```
