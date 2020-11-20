@@ -11,8 +11,7 @@ F7: H3K27ac (promoters): score
 F8: nearest gene? 0/1  
 F9: intronic? 0=no, 1=yes, target gene 2=yes, different gene  
 
-### Feature 1
-### H3K27ac for enhancers:
+### Feature 1  H3K27ac for enhancers:
 Download the "high H3K27ac for [cell line]" files, e,g., https://www.encodeproject.org/annotations/ENCSR370SPA/ for HepG2.
 Use this Perl script to make a file with only the elements that had high peaks:
 $ perl highstate.pl ENCFF386PZF.bed highstateout enhancer
