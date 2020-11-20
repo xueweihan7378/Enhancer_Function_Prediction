@@ -70,6 +70,21 @@ HUMAN|Ensembl=ENSG00000141979|UniProtKB=B8ZZF3  9_state_high    H3K4me3 HepG2
 HUMAN|Ensembl=ENSG00000144785|UniProtKB=F8W031  9_state_high    H3K4me3 HepG2
 HUMAN|Ensembl=ENSG00000179240|UniProtKB=A0A0U1RQW1      9_state_high    H3K4me3 HepG
 ```
+### Feature 4: p300 binding of enhancers
+Download the file with “optimal” thresholded peaks from ENCODE's ChIP-seq experiments targeting p300.
+The 7th column is the level of enrichment for the peak. 8th column is -log10(pval). 9th column is -log10(qval) for FDR. Use the enrichment peak amount.  
+Find the level of overlap between these peaks and the PEREGRINE enhancers.
+```
+$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b ENCFF547POU.bed > EP300_1
+$ perl p300binding.pl EP300_1 EP300_HepG2 p300 HepG2
+```
+The output file has this format:
+```
+$ head EP300_HepG2
+41      175.40901       p300    HepG2
+54      66.27693        p300    HepG2
+106     33.32324        p300    HepG2
+```
 ### Feature 5: eQTL combined Z score
 Download the eQTL all_pairs file from GTEx (https://gtexportal.org/home/datasets) for the tissue of interest (click on GTEx Analysis V7 on the lefthand menu and select the relevant tissue under the Tissue-Specific All SNP Gene Associations aectioin) and use this perl script to separate it by chromosomes (this is a speed/memory tip):
 ```
