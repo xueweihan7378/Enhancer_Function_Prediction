@@ -70,3 +70,49 @@ HUMAN|Ensembl=ENSG00000141979|UniProtKB=B8ZZF3  9_state_high    H3K4me3 HepG2
 HUMAN|Ensembl=ENSG00000144785|UniProtKB=F8W031  9_state_high    H3K4me3 HepG2
 HUMAN|Ensembl=ENSG00000179240|UniProtKB=A0A0U1RQW1      9_state_high    H3K4me3 HepG
 ```
+### Feature 5: eQTL combined Z score
+Download the eQTL all_pairs file from GTEx for the tissue of interest and use perl script to separate it by chromosomes (this is a speed/memory tip):
+```
+$ perl splitv4.pl Artery_Coronary.allpairs.txt
+```
+Then run the following script in R (but make sure to change the file names to match whatever tissue you're working on and the directory to wherever the files are located).
+```
+eqtl.R
+```
+Then execute this file (but make sure to change the file names to match whatever tissue you're working on and the directory to wherever the files are located):
+```
+$ ./all_eqtl_bash.sh
+```
+which contains this for each chromosome:
+```
+perl eqtlprocessv2.pl newdata1.txt chr1Breast_Mammary_Tissue_eqtl_all 
+perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
+perl eliminateoverlapeqtlv2.pl chr1Breast_Mammary_Tissue_eqtls exons_genes.txt chr1Breast_Mammary_Tissue_eqtl2 overlaps unmatched 
+#rm newdata1.txt
+bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b chr1Breast_Mammary_Tissue_eqtl2 > chr1Breast_Mammary_Tissue_intersect 
+perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtl tissuetable_10092018.txt pantherGeneList.txt 
+perl linksDBeqtl.pl links_chr1Breast_Mammary_Tissue_eqtl linksDBeqtlchr1Breast 
+rm chr1Breast_Mammary_Tissue_eqtl_all 
+rm chr1Breast_Mammary_Tissue_eqtls
+rm chr1Breast_Mammary_Tissue_eqtl2
+rm chr1Breast_Mammary_Tissue_intersect 
+```
+At the end, the links_chr()Liver_eqtl files are concatenated into file Liver_links_eqtl.  
+The linksDBeqtlchr()Liver files are concatenated into file Liver_links_eqtlnum.  
+```
+cat links_chr*Breast_Mammary_Tissue_eqtl > Breast_links_eqtl
+cat linksDBeqtlchr*Breast > Breast_links_eqtlnum
+```
+Then run the following perl script.
+```
+$ perl eqtl.pl Liver_links_eqtl Liver_links_eqtlnum pre_eQTL_Liver_links
+```
+Then run eQTL_Zstats.R to get the final output file, Liver_eQTL_Zstats.txt.
+```
+$ head Liver_eQTL_Zstats.txt
+enhancer        gene    tissue  k       chistat pchisq  Zstat
+EH37E0330081    HUMAN|HGNC=575|UniProtKB=Q9Y587 30      1       2.81633570234595        0.244591        1.18666248410109
+EH37E0437000    HUMAN|HGNC=7809|UniProtKB=P08138        30      1       1.77906392514693        0.410848        0.943150021244481
+EH37E0144960    HUMAN|HGNC=4693|UniProtKB=Q16774        30      2       1.25198213681103        0.869468172454407       0.55946003807489
+EH37E0594856    HUMAN|HGNC=15791|UniProtKB=Q9H490       30      1       2.65776484772833        0.264773        1.15277162693404
+```
