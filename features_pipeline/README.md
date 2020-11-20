@@ -171,8 +171,9 @@ EH37E0617026    HUMAN|HGNC=1911|UniProtKB=Q13112        30      3       0.046632
 EH37E0489983    HUMAN|HGNC=18753|UniProtKB=Q8NI29       30      2       0.4264625
 EH37E0086258    HUMAN|HGNC=11732|UniProtKB=Q96S53       30      1       0.0273263
 ```
-### Feature 7: H3K27ac for promoters:
-The file promoters is the promoters of the genes. The bed file is the same one used for enhancers.
+### Feature 7: H3K27ac for promoters
+Download the “replicated peaks” bed file in hg19 build from ENCODE ChIP-seq experiments targeting H3K27ac (e.g., https://www.encodeproject.org/experiments/ENCSR000AMO/).  
+The file promoters is the promoters of the genes.
 ```
 $ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a promoters -b ENCFF825NBZ.bed > H3K27acgenes_HepG2_int
 $ perl p300bindinggenes.pl H3K27acgenes_HepG2_int H3K27ac_HepG2_genes H3K27ac pantherGeneList.txt HepG2
@@ -222,4 +223,9 @@ chr1    100113534       100114036       3       chr1    100106314       10011716
 chr1    100169951       100170218       7       chr1    100166438       100172334       ENSG00000036530.4
 chr1    100169951       100170218       7       chr1    100166438       100172984       ENSG00000036530.4
 chr1    100422351       100422596       8       chr1    100404050       100441812       ENSG00000152034.6
+```
+### To make a new features dataset:
+This script takes all of the above generated files and creates a features dataset that is ready to be loaded intoR for analysis.
+```
+$ perl addlinksHCT116.pl v1featuresHCT116 total_cislinks Colon_Sigmoid_eQTL_Zstats.txt highH3K27ac_HCT116_links H3K4me1_HCT116_links H3K4me3_HCT116_genes closest__genes Colon_Transverse_eQTL_Zstats.txt intronic_enh pantherGeneListall.txt pre_eQTL_Colon_Sigmoid_links_coeff_abs H3K27ac_HCT116_genes pre_eQTL_Colon_Transverse_links_coeff_abs
 ```
