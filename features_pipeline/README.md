@@ -53,3 +53,20 @@ $ head H3K4me1_HepG2_links
 ### Feature 3: H3K4me3 for promoters
 Download the "high H3K4me1 for [cell line]" bed files in hg19 build, e,g., https://www.encodeproject.org/annotations/ENCSR368ISU/ for HepG2.
 Use this Perl script to make a file with only the elements that had high peaks:
+```
+$ perl highstate.pl ENCFF579BAM.bed highstateout promoter
+```
+See which genes meet the 50% overlap threshold for these peaks:
+```
+$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a first500bpgenes -b highstateout > int
+$ perl H3K4me3binding.pl int H3K4me3_HepG2_genes H3K4me3 pantherGeneList.txt HepG2
+```
+This is the output file format:
+```
+$ head H3K4me3_HepG2_genes
+HUMAN|Ensembl=ENSG00000005189|UniProtKB=H3BM72  9_state_high    H3K4me3 HepG2
+HUMAN|Ensembl=ENSG00000111780|UniProtKB=H0YIV9  9_state_high    H3K4me3 HepG2
+HUMAN|Ensembl=ENSG00000141979|UniProtKB=B8ZZF3  9_state_high    H3K4me3 HepG2
+HUMAN|Ensembl=ENSG00000144785|UniProtKB=F8W031  9_state_high    H3K4me3 HepG2
+HUMAN|Ensembl=ENSG00000179240|UniProtKB=A0A0U1RQW1      9_state_high    H3K4me3 HepG
+```
