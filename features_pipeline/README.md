@@ -1,15 +1,15 @@
 This pipeline explains how to generate the dataset ascribing machine learning features of interest (to me) to all cis enhancer-gene links involving PEREGRINE enhancers and PANTHER genes. 
 
 Here are the features:
-#F1: H3K27ac (enhancer): 0/1
-#F2: H3K4me1 (enhancer): score
-#F3: H3K4me3 (promoter): 0/1
-#F4: p300 binding (enhancer): score
-#F5: eQTL: combined Z score
-#F6: eQTL averaged coefficient (absolute values of original coefficients)
-#F7: H3K27ac (promoters): score
-#F8: nearest gene? 0/1
-#F9: intronic? 0=no, 1=yes, target gene 2=yes, different gene
+#F1: H3K27ac (enhancer): 0/1  
+#F2: H3K4me1 (enhancer): score  
+#F3: H3K4me3 (promoter): 0/1  
+#F4: p300 binding (enhancer): score  
+#F5: eQTL: combined Z score  
+#F6: eQTL averaged coefficient (absolute values of original coefficients)  
+#F7: H3K27ac (promoters): score  
+#F8: nearest gene? 0/1  
+#F9: intronic? 0=no, 1=yes, target gene 2=yes, different gene  
 
 Feature 1
 H3K27ac for enhancers:
