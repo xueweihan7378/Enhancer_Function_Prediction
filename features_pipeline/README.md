@@ -1,6 +1,6 @@
 ### This pipeline explains how to generate the dataset ascribing machine learning features of interest (to me) to all cis enhancer-gene links involving PEREGRINE enhancers and PANTHER genes. 
 
-Here are the features:
+Here are the features:  
 F1: H3K27ac (enhancer): 0/1  
 F2: H3K4me1 (enhancer): score  
 F3: H3K4me3 (promoter): 0/1  
@@ -12,7 +12,7 @@ F8: nearest gene? 0/1
 F9: intronic? 0=no, 1=yes, target gene 2=yes, different gene  
 
 ### Feature 1: H3K27ac for enhancers
-Download the "high H3K27ac for [cell line]" files, e,g., https://www.encodeproject.org/annotations/ENCSR370SPA/ for HepG2.
+Download the "high H3K27ac for [cell line]" bed files in hg19 build, e,g., https://www.encodeproject.org/annotations/ENCSR370SPA/ for HepG2.
 Use this Perl script to make a file with only the elements that had high peaks:
 ```
 $ perl highstate.pl ENCFF386PZF.bed highstateout enhancer
@@ -32,15 +32,20 @@ $ head highH3K27ac_HepG2_links
 ```
 
 ### Feature 2: H3K4me1 for enhancers
-Download the “replicated peaks” bed file from ENCODE ChIP-seq experiments targeting H3K4me1 in hg19 build.
+Download the “replicated peaks” bed file from ENCODE ChIP-seq experiments targeting H3K4me1 in hg19 build.  
 Use a 50% overlap threshold to see which of the PEREGRINE enhancers overlap with these peaks:
+```
 $ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b ENCFF428FAW.bed > H3K4me1_HepG2_int
+```
 Use this perl script to output the enhancers that meet the 50% threshold for overlap with the H3K27ac peaks.
+```
 $ perl intersectenhancers.pl H3K4me1_HepG2_int H3K4me1_HepG2_links H3K4me1 HepG2 no
+```
 The output file format is:
+```
 $ head H3K4me1_HepG2_links
 2       4.92004 H3K4me1 HepG2
 3       5.38432 H3K4me1 HepG2
 8       6.21267 H3K4me1 HepG2
 13      7.09743 H3K4me1 HepG2
-
+```
