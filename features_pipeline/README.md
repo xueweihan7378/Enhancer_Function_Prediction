@@ -11,22 +11,27 @@ F7: H3K27ac (promoters): score
 F8: nearest gene? 0/1  
 F9: intronic? 0=no, 1=yes, target gene 2=yes, different gene  
 
-### Feature 1  H3K27ac for enhancers:
+### Feature 1: H3K27ac for enhancers
 Download the "high H3K27ac for [cell line]" files, e,g., https://www.encodeproject.org/annotations/ENCSR370SPA/ for HepG2.
 Use this Perl script to make a file with only the elements that had high peaks:
+```
 $ perl highstate.pl ENCFF386PZF.bed highstateout enhancer
+```
 See which PEREGRINE enhancers meet the 50% overlap threshold for these peaks:
+```
 $ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b highstateout > int
 $ perl intersectenhancers.pl int highH3K27ac_HepG2_links H3K27ac HepG2 yes
+```
 The output file has the following format:
+```
 $ head highH3K27ac_HepG2_links
 3       .       H3K27ac HepG2
 12      .       H3K27ac HepG2
 13      .       H3K27ac HepG2
 41      .       H3K27ac HepG2
+```
 
-### Feature 2
-### H3K4me1 for enhancers:
+### Feature 2: H3K4me1 for enhancers
 Download the “replicated peaks” bed file from ENCODE ChIP-seq experiments targeting H3K4me1 in hg19 build.
 Use a 50% overlap threshold to see which of the PEREGRINE enhancers overlap with these peaks:
 $ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b ENCFF428FAW.bed > H3K4me1_HepG2_int
