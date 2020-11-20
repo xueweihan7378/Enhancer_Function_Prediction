@@ -49,3 +49,7 @@ $ head H3K4me1_HepG2_links
 8       6.21267 H3K4me1 HepG2
 13      7.09743 H3K4me1 HepG2
 ```
+
+### Feature 3: H3K4me3 for promoters
+Download the "high H3K4me1 for [cell line]" bed files in hg19 build, e,g., https://www.encodeproject.org/annotations/ENCSR368ISU/ for HepG2.
+Use this Perl script to make a file with only the elements that had high peaks:
