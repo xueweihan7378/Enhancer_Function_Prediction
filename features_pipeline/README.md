@@ -71,7 +71,7 @@ HUMAN|Ensembl=ENSG00000144785|UniProtKB=F8W031  9_state_high    H3K4me3 HepG2
 HUMAN|Ensembl=ENSG00000179240|UniProtKB=A0A0U1RQW1      9_state_high    H3K4me3 HepG
 ```
 ### Feature 4: p300 binding of enhancers
-Download the file with “optimal” thresholded peaks from ENCODE's ChIP-seq experiments targeting p300.
+Download the bed file with “optimal” thresholded peaks in hg19 build from ENCODE's ChIP-seq experiments targeting p300. (e.g., https://www.encodeproject.org/experiments/ENCSR000BLW/)
 The 7th column is the level of enrichment for the peak. 8th column is -log10(pval). 9th column is -log10(qval) for FDR. Use the enrichment peak amount.  
 Find the level of overlap between these peaks and the PEREGRINE enhancers.
 ```
