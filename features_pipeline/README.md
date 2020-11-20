@@ -71,7 +71,7 @@ HUMAN|Ensembl=ENSG00000144785|UniProtKB=F8W031  9_state_high    H3K4me3 HepG2
 HUMAN|Ensembl=ENSG00000179240|UniProtKB=A0A0U1RQW1      9_state_high    H3K4me3 HepG
 ```
 ### Feature 5: eQTL combined Z score
-Download the eQTL all_pairs file from GTEx for the tissue of interest and use perl script to separate it by chromosomes (this is a speed/memory tip):
+Download the eQTL all_pairs file from GTEx (https://gtexportal.org/home/datasets) for the tissue of interest (click on GTEx Analysis V7 on the lefthand menu and select the relevant tissue under the Tissue-Specific All SNP Gene Associations aectioin) and use this perl script to separate it by chromosomes (this is a speed/memory tip):
 ```
 $ perl splitv4.pl Artery_Coronary.allpairs.txt
 ```
