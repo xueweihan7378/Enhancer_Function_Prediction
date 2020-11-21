@@ -76,7 +76,7 @@ The 7th column is the level of enrichment for the peak. 8th column is -log10(pva
 Find the level of overlap between these peaks and the PEREGRINE enhancers.
 ```
 $ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b ENCFF547POU.bed > EP300_1
-$ perl p300binding.pl EP300_1 EP300_HepG2 p300 HepG2
+$ perl intersectenhancers.pl EP300_1 EP300_HepG2 p300 HepG2 no
 ```
 The output file has this format:
 ```
