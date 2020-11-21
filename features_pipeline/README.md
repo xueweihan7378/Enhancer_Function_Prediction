@@ -186,6 +186,7 @@ HUMAN|HGNC=24023|UniProtKB=Q6TDP4       14.20247        H3K27ac HepG2
 HUMAN|HGNC=24023|UniProtKB=Q6TDP4       3.29504 H3K27ac HepG2
 ```
 ### Feature 8: to find the closest gene to each enhancer
+(This has already been generated; you can just take the outfile closest__genes but here is the process by which it was generated.)
 ```
 $ sort -k1,1 -k2,2n CREbedDBenhancers_10092018 > sortedCRE
 $ sort -k1,1 -k2,2n genes.bed > sortedgenes
@@ -202,6 +203,7 @@ $ head closest__genes
 10001   HUMAN|HGNC=8477|UniProtKB=Q15620        closest_genes   HepG2
 ```
 ### Feature 9: intronic? 0=no, 1=yes, target gene 2=yes, different gene
+(This has already been generated; you can just take the outfile intronic_enh but here is the process by which it was generated.)  
 First we need to organize the exons file exons_genes.txt so that we have all the exons grouped together by gene and in order:
 ```
 $ perl exons.pl exons_genes.txt sorted_exons
