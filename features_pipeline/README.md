@@ -227,7 +227,8 @@ chr1    100169951       100170218       7       chr1    100166438       10017298
 chr1    100422351       100422596       8       chr1    100404050       100441812       ENSG00000152034.6
 ```
 ### To make a new features dataset:
-This script takes all of the above generated files and creates a features dataset that is ready to be loaded intoR for analysis.
+This script takes all of the above generated files and creates a features dataset that is ready to be loaded intoR for analysis. The top example is for a cell line which did not have p300 ChIP-seq data and the bottom example is of a cell line that did have p300 ChIP-seq data.
 ```
-$ perl addlinksHCT116.pl v1featuresHCT116 total_cislinks Colon_Sigmoid_eQTL_Zstats.txt highH3K27ac_HCT116_links H3K4me1_HCT116_links H3K4me3_HCT116_genes closest__genes Colon_Transverse_eQTL_Zstats.txt intronic_enh pantherGeneListall.txt pre_eQTL_Colon_Sigmoid_links_coeff_abs H3K27ac_HCT116_genes pre_eQTL_Colon_Transverse_links_coeff_abs
+$ perl generatefeatures.pl v1featuresHCT116 total_cislinks Colon_Transverse_eQTL_Zstats highH3K27ac_HCT116_links H3K4me1_HCT116_links H3K4me3_HCT116_genes closest__genes no intronic_enh pantherGeneListall.txt pre_eQTL_Colon_Transverse_links_coeff_abs H3K27ac_HCT116_genes
+$ perl generatefeatures.pl v1featuresK562 total_cislinks Whole_Blood_eQTL_Zstats.txt highH3K27ac_K562_links H3K4me1_K562_links H3K4me3_K562_genes closest__genes yes intronic_enh pantherGeneListall.txt pre_eQTL_Whole_Blood_links H3K27ac_K562_genes EP300_K562
 ```
