@@ -59,7 +59,7 @@ $ perl highstate.pl ENCFF579BAM.bed highstateout promoter
 See which genes meet the 50% overlap threshold for these peaks:
 ```
 $ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a first500bpgenes -b highstateout > int
-$ perl H3K4me3binding.pl int H3K4me3_HepG2_genes H3K4me3 pantherGeneList.txt HepG2
+$ perl H3K4me3binding.pl int H3K4me3_HepG2_genes H3K4me3 pantherGeneList2020.txt HepG2
 ```
 This is the output file format:
 ```
@@ -101,11 +101,11 @@ $ ./all_eqtl_bash.sh
 which contains this for each chromosome:
 ```
 perl eqtlprocessv2.pl newdata1.txt chr1Breast_Mammary_Tissue_eqtl_all 
-perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
+perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList2020.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl chr1Breast_Mammary_Tissue_eqtls exons_genes.txt chr1Breast_Mammary_Tissue_eqtl2 overlaps unmatched 
 #rm newdata1.txt
 bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b chr1Breast_Mammary_Tissue_eqtl2 > chr1Breast_Mammary_Tissue_intersect 
-perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtl tissuetable_10092018.txt pantherGeneList.txt 
+perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtl tissuetable_10092018.txt pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr1Breast_Mammary_Tissue_eqtl linksDBeqtlchr1Breast 
 rm chr1Breast_Mammary_Tissue_eqtl_all 
 rm chr1Breast_Mammary_Tissue_eqtls
@@ -147,10 +147,10 @@ $ ./all_eqtl_bash.sh
 which contains this for each chromosome:
 ```
 perl eqtlprocessv2.pl breastcoeffnewdata1.txt chr1Breast_Mammary_Tissue_eqtl_all 
-perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
+perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList2020.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl chr1Breast_Mammary_Tissue_eqtls exons_genes.txt chr1Breast_Mammary_Tissue_eqtl2 overlaps unmatched 
 bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b chr1Breast_Mammary_Tissue_eqtl2 > chr1Breast_Mammary_Tissue_intersect
-perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtlcoeff tissuetable_10092018.txt pantherGeneList.txt 
+perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtlcoeff tissuetable_10092018.txt pantherGeneList2020.txt 
 rm chr1Breast_Mammary_Tissue_eqtl_all 
 rm chr1Breast_Mammary_Tissue_eqtls
 rm chr1Breast_Mammary_Tissue_eqtl2
@@ -176,7 +176,7 @@ Download the “replicated peaks” bed file in hg19 build from ENCODE ChIP-seq 
 The file promoters is the promoters of the genes.
 ```
 $ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a promoters -b ENCFF825NBZ.bed > H3K27acgenes_HepG2_int
-$ perl p300bindinggenes.pl H3K27acgenes_HepG2_int H3K27ac_HepG2_genes H3K27ac pantherGeneList.txt HepG2
+$ perl p300bindinggenes.pl H3K27acgenes_HepG2_int H3K27ac_HepG2_genes H3K27ac pantherGeneList2020.txt HepG2
 ```
 The output file format is:
 ```
@@ -191,7 +191,7 @@ HUMAN|HGNC=24023|UniProtKB=Q6TDP4       3.29504 H3K27ac HepG2
 $ sort -k1,1 -k2,2n CREbedDBenhancers_10092018 > sortedCRE
 $ sort -k1,1 -k2,2n genes.bed > sortedgenes
 $ bedtools closest -a sortedCRE -b sortedgenes > closestgenes
-$ perl closestgenes.pl closestgenes closest__genes pantherGeneListall.txt genes.txt
+$ perl closestgenes.pl closestgenes closest__genes pantherGeneList2020.txt genes.txt
 ```
 The output file format is:
 ```
@@ -229,6 +229,6 @@ chr1    100422351       100422596       8       chr1    100404050       10044181
 ### To make a new features dataset:
 This script takes all of the above generated files and creates a features dataset that is ready to be loaded intoR for analysis. The top example is for a cell line which did not have p300 ChIP-seq data and the bottom example is of a cell line that did have p300 ChIP-seq data.
 ```
-$ perl generatefeatures.pl v1featuresHCT116 total_cislinks Colon_Transverse_eQTL_Zstats highH3K27ac_HCT116_links H3K4me1_HCT116_links H3K4me3_HCT116_genes closest__genes no intronic_enh pantherGeneListall.txt pre_eQTL_Colon_Transverse_links_coeff_abs H3K27ac_HCT116_genes
-$ perl generatefeatures.pl v1featuresK562 total_cislinks Whole_Blood_eQTL_Zstats.txt highH3K27ac_K562_links H3K4me1_K562_links H3K4me3_K562_genes closest__genes yes intronic_enh pantherGeneListall.txt pre_eQTL_Whole_Blood_links H3K27ac_K562_genes EP300_K562
+$ perl generatefeatures.pl v1featuresHCT116 total_cislinks Colon_Transverse_eQTL_Zstats highH3K27ac_HCT116_links H3K4me1_HCT116_links H3K4me3_HCT116_genes closest__genes no intronic_enh pantherGeneList2020.txt pre_eQTL_Colon_Transverse_links_coeff_abs H3K27ac_HCT116_genes
+$ perl generatefeatures.pl v1featuresK562 total_cislinks Whole_Blood_eQTL_Zstats.txt highH3K27ac_K562_links H3K4me1_K562_links H3K4me3_K562_genes closest__genes yes intronic_enh pantherGeneList2020.txt pre_eQTL_Whole_Blood_links H3K27ac_K562_genes EP300_K562
 ```
