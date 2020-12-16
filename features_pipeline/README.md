@@ -100,17 +100,13 @@ $ ./all_eqtl_bash.sh
 ```
 which contains this for each chromosome:
 ```
-perl eqtlprocessv2.pl newdata1.txt chr1Breast_Mammary_Tissue_eqtl_all 
-perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList2020.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
-perl eliminateoverlapeqtlv2.pl chr1Breast_Mammary_Tissue_eqtls exons_genes.txt chr1Breast_Mammary_Tissue_eqtl2 overlaps unmatched 
+perl eqtlprocessv2.pl newdata1.txt Cells_EBV-transformed_lymphocytes_eqtl_all
+perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers
+perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched
 #rm newdata1.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b chr1Breast_Mammary_Tissue_eqtl2 > chr1Breast_Mammary_Tissue_intersect 
-perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtl tissuetable_10092018.txt pantherGeneList2020.txt 
-perl linksDBeqtl.pl links_chr1Breast_Mammary_Tissue_eqtl linksDBeqtlchr1Breast 
-rm chr1Breast_Mammary_Tissue_eqtl_all 
-rm chr1Breast_Mammary_Tissue_eqtls
-rm chr1Breast_Mammary_Tissue_eqtl2
-rm chr1Breast_Mammary_Tissue_intersect 
+bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr1Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt
+perl linksDBeqtl.pl links_chr1Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr1Cells_EBV-transformed_lymphocytes
 ```
 At the end, the links_chr()Liver_eqtl files are concatenated into file Liver_links_eqtl.  
 The linksDBeqtlchr()Liver files are concatenated into file Liver_links_eqtlnum.  
@@ -146,15 +142,11 @@ $ ./all_eqtl_bash.sh
 ```
 which contains this for each chromosome:
 ```
-perl eqtlprocessv2.pl breastcoeffnewdata1.txt chr1Breast_Mammary_Tissue_eqtl_all 
-perl pantherIDweed.pl chr1Breast_Mammary_Tissue_eqtl_all pantherGeneList2020.txt chr1Breast_Mammary_Tissue_eqtls leftovers 
-perl eliminateoverlapeqtlv2.pl chr1Breast_Mammary_Tissue_eqtls exons_genes.txt chr1Breast_Mammary_Tissue_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b chr1Breast_Mammary_Tissue_eqtl2 > chr1Breast_Mammary_Tissue_intersect
-perl eqtllinks.pl chr1Breast_Mammary_Tissue_intersect links_chr1Breast_Mammary_Tissue_eqtlcoeff tissuetable_10092018.txt pantherGeneList2020.txt 
-rm chr1Breast_Mammary_Tissue_eqtl_all 
-rm chr1Breast_Mammary_Tissue_eqtls
-rm chr1Breast_Mammary_Tissue_eqtl2
-rm chr1Breast_Mammary_Tissue_intersect 
+perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata1.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
+perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
+perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
+bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr1Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 ```
 At the end, the links_chr()Breast_Mammary_Tissue_eqtlcoeff files are concatenated into file Breast_links_eqtlcoeff.  
 ```
