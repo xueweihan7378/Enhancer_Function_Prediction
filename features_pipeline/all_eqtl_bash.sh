@@ -3,161 +3,161 @@ perl eqtlprocessv2.pl newdata1.txt Cells_EBV-transformed_lymphocytes_eqtl_all
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata1.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr1Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr1Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr1Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata2.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata2.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr2Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr2Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr2Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata3.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata3.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr3Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr3Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr3Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata4.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata4.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr4Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr4Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr4Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata5.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata5.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr5Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr5Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr5Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata6.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata6.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr6Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr6Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr6Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata7.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata7.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr7Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr7Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr7Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata8.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata8.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr8Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr8Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr8Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata9.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata9.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr9Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr9Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr9Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata10.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata10.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr10Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr10Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr10Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata11.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata11.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr11Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr11Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr11Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata12.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata12.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr12Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr12Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr12Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata13.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata13.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr13Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr13Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr13Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata14.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata14.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr14Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr14Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr14Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata15.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata15.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr15Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr15Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr15Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata16.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata16.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr16Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr16Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr16Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata17.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata17.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr17Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr17Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr17Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata18.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata18.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr18Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr18Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr18Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata19.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata19.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr19Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr19Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr19Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata20.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata20.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr20Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr20Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr20Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata21.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata21.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr21Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr21Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr21Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdata22.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdata22.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr22Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chr22Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr22Cells_EBV-transformed_lymphocytes 
 perl eqtlprocessv2.pl newdataX.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
 #rm newdataX.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect 
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chrXCells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt 
 perl linksDBeqtl.pl links_chrXCells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchrXCells_EBV-transformed_lymphocytes 
 cat links_chr*Cells_EBV-transformed_lymphocytes_eqtl > Cells_EBV-transformed_lymphocytes_links_eqtl
@@ -166,116 +166,116 @@ cat linksDBeqtlchr*Cells_EBV-transformed_lymphocytes > Cells_EBV-transformed_lym
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata1.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr1Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata2.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr2Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata3.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr3Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata4.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr4Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata5.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr5Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata6.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr6Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata7.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr7Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata8.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr8Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata9.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr9Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata10.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr10Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata11.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr11Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata12.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr12Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata13.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr13Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata14.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr14Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata15.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr15Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata16.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr16Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata17.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr17Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata18.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr18Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata19.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr19Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata20.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr20Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata21.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr21Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata22.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr22Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdataX.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chrXCells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 cat links_chr*Cells_EBV-transformed_lymphocytes_eqtlcoeff > Cells_EBV-transformed_lymphocytes_links_eqtlcoeff
