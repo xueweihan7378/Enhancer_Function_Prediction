@@ -19,7 +19,7 @@ $ perl highstate.pl ENCFF386PZF.bed highstateout enhancer
 ```
 See which PEREGRINE enhancers meet the 50% overlap threshold for these peaks:
 ```
-$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b highstateout > int
+$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a PEREGRINEenhancers -b highstateout > int
 $ perl intersectenhancers.pl int highH3K27ac_HepG2_links H3K27ac HepG2 yes
 ```
 The output file has the following format:
@@ -35,7 +35,7 @@ $ head highH3K27ac_HepG2_links
 Download the “replicated peaks” bed file from ENCODE ChIP-seq experiments targeting H3K4me1 in hg19 build.  
 Use a 50% overlap threshold to see which of the PEREGRINE enhancers overlap with these peaks:
 ```
-$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b ENCFF428FAW.bed > H3K4me1_HepG2_int
+$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a PEREGRINEenhancers -b ENCFF428FAW.bed > H3K4me1_HepG2_int
 ```
 Use this perl script to output the enhancers that meet the 50% threshold for overlap with the H3K27ac peaks.
 ```
@@ -75,7 +75,7 @@ Download the bed file with “optimal” thresholded peaks in hg19 build from EN
 The 7th column is the level of enrichment for the peak. 8th column is -log10(pval). 9th column is -log10(qval) for FDR. Use the enrichment peak amount.  
 Find the level of overlap between these peaks and the PEREGRINE enhancers.
 ```
-$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a CREbedDBenhancers_10092018 -b ENCFF547POU.bed > EP300_1
+$ bedtools intersect -wa -wb -f 0.5 -F 0.5 -e -a PEREGRINEenhancers -b ENCFF547POU.bed > EP300_1
 $ perl intersectenhancers.pl EP300_1 EP300_HepG2 p300 HepG2 no
 ```
 The output file has this format:
@@ -104,7 +104,7 @@ perl eqtlprocessv2.pl newdata1.txt Cells_EBV-transformed_lymphocytes_eqtl_all
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched
 #rm newdata1.txt
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr1Cells_EBV-transformed_lymphocytes_eqtl tissuetable_03302020 pantherGeneList2020.txt
 perl linksDBeqtl.pl links_chr1Cells_EBV-transformed_lymphocytes_eqtl linksDBeqtlchr1Cells_EBV-transformed_lymphocytes
 ```
@@ -145,7 +145,7 @@ which contains this for each chromosome:
 perl eqtlprocessv2.pl Cells_EBV-transformed_lymphocytescoeffnewdata1.txt Cells_EBV-transformed_lymphocytes_eqtl_all 
 perl pantherIDweed.pl Cells_EBV-transformed_lymphocytes_eqtl_all pantherGeneList2020.txt Cells_EBV-transformed_lymphocytes_eqtls leftovers 
 perl eliminateoverlapeqtlv2.pl Cells_EBV-transformed_lymphocytes_eqtls exons_genes.txt Cells_EBV-transformed_lymphocytes_eqtl2 overlaps unmatched 
-bedtools intersect -wa -wb -a CREbedDBenhancers_10092018 -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
+bedtools intersect -wa -wb -a PEREGRINEenhancers -b Cells_EBV-transformed_lymphocytes_eqtl2 > Cells_EBV-transformed_lymphocytes_intersect
 perl eqtllinks.pl Cells_EBV-transformed_lymphocytes_intersect links_chr1Cells_EBV-transformed_lymphocytes_eqtlcoeff tissuetable_03302020 pantherGeneList2020.txt 
 ```
 At the end, the links_chr()Breast_Mammary_Tissue_eqtlcoeff files are concatenated into file Breast_links_eqtlcoeff.  
@@ -180,7 +180,7 @@ HUMAN|HGNC=24023|UniProtKB=Q6TDP4       3.29504 H3K27ac HepG2
 ### Feature 8: to find the closest gene to each enhancer
 (This has already been generated; you can just take the outfile closest__genes but here is the process by which it was generated.)
 ```
-$ sort -k1,1 -k2,2n CREbedDBenhancers_10092018 > sortedCRE
+$ sort -k1,1 -k2,2n PEREGRINEenhancers > sortedCRE
 $ sort -k1,1 -k2,2n genes.bed > sortedgenes
 $ bedtools closest -a sortedCRE -b sortedgenes > closestgenes
 $ perl closestgenes.pl closestgenes closest__genes pantherGeneList2020.txt genes.txt
@@ -207,7 +207,7 @@ $ sort intronz| uniq > introns
 ```
 Now we can use bedtools intersect to get the enhancers that are intronic.
 ```
-$ bedtools intersect -wa -wb -f 0.33 -a CREbedDBenhancers_10092018 -b introns > intronic_enh
+$ bedtools intersect -wa -wb -f 0.33 -a PEREGRINEenhancers -b introns > intronic_enh
 ```
 The output file has the format:
 ```
