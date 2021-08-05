@@ -8,7 +8,7 @@
 - HCT116
 - MCF7
 
-The method generating these datasets can be found at: https://github.com/xueweihan7378/machinelearning
+The method generating these datasets can be found at: https://github.com/xueweihan7378/Enhancer_Function_Prediction/tree/main/features_pipeline
 
 *Example:*
 1. Input training datasets into R
