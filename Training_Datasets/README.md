@@ -1,6 +1,6 @@
 # Training Datasets
 
-**There are four datasets involving four cell types generated for machine learning**
+**There are four datasets with truelink information generated for machine learning**
 
 *including:*
 - HepG2
@@ -13,12 +13,12 @@ The method generating these datasets can be found at: https://github.com/xueweih
 *Example:*
 1. Input training datasets into R
 ```
-HepG2 = read.delim("HepG2_notZ")
+HepG2 <- read.delim("HepG2_notZ")
 ```
 2. Standarize continious variables
 ```
 #generate new dataset with truelink (outcome)
-HepG2Z = HepG2[12] 
+HepG2Z <- HepG2[12] 
 #if blocking by gene or enhancer (otherwise skip)
 HepG2Z$gene<-as.factor(HepG2$gene)
 
@@ -35,14 +35,14 @@ HepG2Z$truelink<-factor(HepG2Z$truelink, levels = 0:1)
 ```
 3. Generate interaction terms:
 ```
-HepG2Z$H3K27ac_H3K4me1 = (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K4me1)
-HepG2Z$H3K27ac_H3K4me3 = (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K4me3)
-HepG2Z$H3K27ac_promoterH3K27ac = (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K27ac_promoter)
-HepG2Z$H3K4me1_H3K4me3 = (HepG2Z$H3K4me1)*(HepG2Z$H3K4me3)
-HepG2Z$H3K4me1_promoterH3K27ac = (HepG2Z$H3K27ac_promoter)*(HepG2Z$H3K4me1)
-HepG2Z$eQTL_eQTL_coeff_abs = (HepG2Z$eQTL_Zscore)*(HepG2Z$coeff_abs)
-HepG2Z$H3K27ac_H3K4me1_H3K4me3 = (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K4me1)*(HepG2$H3K4me3)
-HepG2Z$H3K27ac_promoterH3K27ac_H3K4me1 = (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K27ac_promoter)*(HepG2$H3K4me1)
+HepG2Z$H3K27ac_H3K4me1 <- (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K4me1)
+HepG2Z$H3K27ac_H3K4me3 <- (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K4me3)
+HepG2Z$H3K27ac_promoterH3K27ac <- (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K27ac_promoter)
+HepG2Z$H3K4me1_H3K4me3 <- (HepG2Z$H3K4me1)*(HepG2Z$H3K4me3)
+HepG2Z$H3K4me1_promoterH3K27ac <- (HepG2Z$H3K27ac_promoter)*(HepG2Z$H3K4me1)
+HepG2Z$eQTL_eQTL_coeff_abs <- (HepG2Z$eQTL_Zscore)*(HepG2Z$coeff_abs)
+HepG2Z$H3K27ac_H3K4me1_H3K4me3 <- (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K4me1)*(HepG2$H3K4me3)
+HepG2Z$H3K27ac_promoterH3K27ac_H3K4me1 <- (HepG2Z$H3K27ac_enhancer)*(HepG2Z$H3K27ac_promoter)*(HepG2$H3K4me1)
 ```
 4. Look at the data structure and save datasets
 ```
