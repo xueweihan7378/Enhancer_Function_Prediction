@@ -1,252 +1,254 @@
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr1Breast.allpairs.txt", header=FALSE)
-colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
-head(testing,5)
-testing$tissue='Breast'
-myvars <- c("variant", "gene", "slope", "tissue")
-newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata1.txt", sep = "\t", row.names = FALSE, quote = FALSE)
-myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
-newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata1.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+setwd("/Users/xueweihan/OneDrive - University of Southern California/Biostats/thesis/data/SK-N-SH/F5")
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr2Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr1Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata2.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata1.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata2.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata1.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr3Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr2Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata3.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata2.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata3.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata2.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr4Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr3Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata4.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata3.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata4.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata3.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr5Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr4Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata5.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata4.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata5.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata4.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr6Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr5Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata6.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata5.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata6.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata5.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr7Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr6Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata7.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata6.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata7.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata6.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr8Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr7Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata8.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata7.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata8.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata7.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr9Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr8Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata9.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata8.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata9.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata8.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr10Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr9Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata10.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata9.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata10.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata9.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr11Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr10Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata11.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata10.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata11.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata10.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr12Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr11Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata12.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata11.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata12.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata11.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr13Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr12Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata13.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata12.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata13.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata12.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr14Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr13Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata14.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata13.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata14.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata13.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr15Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr14Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata15.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata14.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata15.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata14.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr16Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr15Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata16.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata15.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata16.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata15.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr17Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr16Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata17.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata16.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata17.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata16.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr18Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr17Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata18.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata17.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata18.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata17.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr19Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr18Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata19.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata18.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata19.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata18.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr20Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr19Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata20.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata19.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata20.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata19.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr21Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr20Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata21.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata20.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata21.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata20.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chr22Breast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr21Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdata22.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata21.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdata22.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata21.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-testing<-read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/chrXBreast.allpairs.txt", header=FALSE)
+testing<-read.delim("chr22Adrenal_Gland.allpairs.txt", header=FALSE)
 colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
 head(testing,5)
-testing$tissue='Breast'
+testing$tissue='Adrenal_Gland'
 myvars <- c("variant", "gene", "slope", "tissue")
 newdata <- testing[myvars]
-write.table(newdata, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/breastcoeffnewdataX.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata, file = "coeffnewdata22.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
 newdata1 <- testing[myvars1]
-write.table(newdata1, file = "C:/Users/caitlinAdmin/Downloads/Pipeline/newdataX.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(newdata1, file = "newdata22.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+
+testing<-read.delim("chrXAdrenal_Gland.allpairs.txt", header=FALSE)
+colnames(testing)<-c('gene', 'variant', 'tss_distance', 'ma_samples', 'ma_count', 'maf', 'pval_nominal', 'slope', 'slope_se')
+head(testing,5)
+testing$tissue='Adrenal_Gland'
+myvars <- c("variant", "gene", "slope", "tissue")
+newdata <- testing[myvars]
+write.table(newdata, file = "coeffnewdataX.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+myvars1 <- c("variant", "gene", "pval_nominal", "tissue")
+newdata1 <- testing[myvars1]
+write.table(newdata1, file = "newdataX.txt", sep = "\t", row.names = FALSE, quote = FALSE)
