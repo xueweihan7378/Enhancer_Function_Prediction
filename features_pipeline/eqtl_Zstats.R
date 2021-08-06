@@ -1,4 +1,4 @@
-links <- read.delim("C:/Users/caitlinAdmin/Downloads/Pipeline/pre_eQTL_Breast_links", header=FALSE)
+links <- read.delim("/Users/xueweihan/OneDrive - University of Southern California/Biostats/thesis/pre_eQTL_Breast_links", header=FALSE)
 #View(links)
 colnames(links)<-c('enhancer', 'gene', 'tissue', 'k', 'chistat')
 head(links,5)
