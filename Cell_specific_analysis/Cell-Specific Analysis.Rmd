@@ -1,0 +1,547 @@
+---
+title: "Cell-Specific Analysis"
+author: "Xuewei Han"
+date: "3/5/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(mlr)
+library(randomForest)
+library(FSelectorRcpp)
+library(FSelector)
+library(ggpubr)
+
+library(ggplot2)
+library(dplyr)
+library(PerformanceAnalytics)
+library(hrbrthemes)
+
+setwd("/Users/han_x/OneDrive - University of Southern California/Biostats/thesis/Cell-specific Analysis/")
+```
+
+### generate *Z
+```{r}
+#input data
+HeLa <- read.delim("HeLafeatures")
+SKNSH <- read.delim("SKNSHfeatures")
+H1 <- read.delim("H1features")
+GM12878 <- read.delim("GM12878features")
+
+#standardizing variables
+GM12878Z <- GM12878[1:2]
+GM12878Z$H3K4me1 <- ((GM12878$H3K4me1-mean(GM12878$H3K4me1))/sd(GM12878$H3K4me1))
+GM12878Z$eQTL_Zscore <- ((GM12878$eQTL_Zscore-mean(GM12878$eQTL_Zscore))/sd(GM12878$eQTL_Zscore))
+GM12878Z$coeff_abs <- ((GM12878$coeff_abs-mean(GM12878$coeff_abs))/sd(GM12878$coeff_abs))
+GM12878Z$H3K27ac_promoter <- ((GM12878$H3K27ac_promoter-mean(GM12878$H3K27ac_promoter))/sd(GM12878$H3K27ac_promoter))
+GM12878Z$p300 <- ((GM12878$p300-mean(GM12878$p300))/sd(GM12878$p300))
+
+GM12878Z$H3K27ac_enhancer <- GM12878$H3K27ac_enhancer
+GM12878Z$H3K4me3 <- GM12878$H3K4me3
+GM12878Z$nearest <- GM12878$nearest
+GM12878Z$intronic_target <- GM12878$intronic
+
+#creating interaction variables
+GM12878Z$H3K27ac_H3K4me1 <- (GM12878Z$H3K27ac_enhancer)*(GM12878Z$H3K4me1)
+GM12878Z$H3K27ac_H3K4me3 <- (GM12878Z$H3K27ac_enhancer)*(GM12878Z$H3K4me3)
+GM12878Z$H3K27ac_promoterH3K27ac <- (GM12878Z$H3K27ac_enhancer)*(GM12878Z$H3K27ac_promoter)
+GM12878Z$H3K4me1_H3K4me3 <- (GM12878Z$H3K4me1)*(GM12878Z$H3K4me3)
+GM12878Z$H3K4me1_promoterH3K27ac <- (GM12878Z$H3K27ac_promoter)*(GM12878Z$H3K4me1)
+GM12878Z$eQTL_eQTL_coeff_abs <- (GM12878Z$eQTL_Zscore)*(GM12878Z$coeff_abs)
+GM12878Z$H3K27ac_H3K4me1_H3K4me3 <- (GM12878Z$H3K27ac_enhancer)*(GM12878Z$H3K4me1)*(GM12878Z$H3K4me3)
+GM12878Z$H3K27ac_promoterH3K27ac_H3K4me1 <- (GM12878Z$H3K27ac_enhancer)*(GM12878Z$H3K27ac_promoter)*(GM12878Z$H3K4me1)
+
+write.table(GM12878Z, file = "GM12878Z", sep = "\t", row.names = FALSE, quote = FALSE)
+
+GM12878Z <- read.delim("GM12878Z")
+summarizeColumns(GM12878Z)
+
+
+#standardizing variables
+HeLaZ <- HeLa[1:2]
+HeLaZ$H3K4me1 <- ((HeLa$H3K4me1-mean(HeLa$H3K4me1))/sd(HeLa$H3K4me1))
+HeLaZ$eQTL_Zscore <- ((HeLa$eQTL_Zscore-mean(HeLa$eQTL_Zscore))/sd(HeLa$eQTL_Zscore))
+HeLaZ$coeff_abs <- ((HeLa$coeff_abs-mean(HeLa$coeff_abs))/sd(HeLa$coeff_abs))
+HeLaZ$H3K27ac_promoter <- ((HeLa$H3K27ac_promoter-mean(HeLa$H3K27ac_promoter))/sd(HeLa$H3K27ac_promoter))
+HeLaZ$p300 <- ((HeLa$p300-mean(HeLa$p300))/sd(HeLa$p300))
+
+HeLaZ$H3K27ac_enhancer <- HeLa$H3K27ac_enhancer
+HeLaZ$H3K4me3 <- HeLa$H3K4me3
+HeLaZ$nearest <- HeLa$nearest
+HeLaZ$intronic_target <- HeLa$intronic
+
+#creating interaction variables
+HeLaZ$H3K27ac_H3K4me1 <- (HeLaZ$H3K27ac_enhancer)*(HeLaZ$H3K4me1)
+HeLaZ$H3K27ac_H3K4me3 <- (HeLaZ$H3K27ac_enhancer)*(HeLaZ$H3K4me3)
+HeLaZ$H3K27ac_promoterH3K27ac <- (HeLaZ$H3K27ac_enhancer)*(HeLaZ$H3K27ac_promoter)
+HeLaZ$H3K4me1_H3K4me3 <- (HeLaZ$H3K4me1)*(HeLaZ$H3K4me3)
+HeLaZ$H3K4me1_promoterH3K27ac <- (HeLaZ$H3K27ac_promoter)*(HeLaZ$H3K4me1)
+HeLaZ$eQTL_eQTL_coeff_abs <- (HeLaZ$eQTL_Zscore)*(HeLaZ$coeff_abs)
+HeLaZ$H3K27ac_H3K4me1_H3K4me3 <- (HeLaZ$H3K27ac_enhancer)*(HeLaZ$H3K4me1)*(HeLaZ$H3K4me3)
+HeLaZ$H3K27ac_promoterH3K27ac_H3K4me1 <- (HeLaZ$H3K27ac_enhancer)*(HeLaZ$H3K27ac_promoter)*(HeLaZ$H3K4me1)
+
+write.table(HeLaZ, file = "HeLaZ", sep = "\t", row.names = FALSE, quote = FALSE)
+
+HeLaZ = read.delim("HeLaZ")
+summarizeColumns(HeLaZ)
+
+
+
+#standardizing variables
+SKNSHZ <- SKNSH[1:2]
+SKNSHZ$H3K4me1 <- ((SKNSH$H3K4me1-mean(SKNSH$H3K4me1))/sd(SKNSH$H3K4me1))
+SKNSHZ$eQTL_Zscore <- ((SKNSH$eQTL_Zscore-mean(SKNSH$eQTL_Zscore))/sd(SKNSH$eQTL_Zscore))
+SKNSHZ$coeff_abs <- ((SKNSH$coeff_abs-mean(SKNSH$coeff_abs))/sd(SKNSH$coeff_abs))
+SKNSHZ$H3K27ac_promoter <- ((SKNSH$H3K27ac_promoter-mean(SKNSH$H3K27ac_promoter))/sd(SKNSH$H3K27ac_promoter))
+SKNSHZ$p300 <- ((SKNSH$p300-mean(SKNSH$p300))/sd(SKNSH$p300))
+
+SKNSHZ$H3K27ac_enhancer <- SKNSH$H3K27ac_enhancer
+SKNSHZ$H3K4me3 <- SKNSH$H3K4me3
+SKNSHZ$nearest <- SKNSH$nearest
+SKNSHZ$intronic_target <- SKNSH$intronic
+
+#creating interaction variables
+SKNSHZ$H3K27ac_H3K4me1 <- (SKNSHZ$H3K27ac_enhancer)*(SKNSHZ$H3K4me1)
+SKNSHZ$H3K27ac_H3K4me3 <- (SKNSHZ$H3K27ac_enhancer)*(SKNSHZ$H3K4me3)
+SKNSHZ$H3K27ac_promoterH3K27ac <- (SKNSHZ$H3K27ac_enhancer)*(SKNSHZ$H3K27ac_promoter)
+SKNSHZ$H3K4me1_H3K4me3 <- (SKNSHZ$H3K4me1)*(SKNSHZ$H3K4me3)
+SKNSHZ$H3K4me1_promoterH3K27ac <- (SKNSHZ$H3K27ac_promoter)*(SKNSHZ$H3K4me1)
+SKNSHZ$eQTL_eQTL_coeff_abs <- (SKNSHZ$eQTL_Zscore)*(SKNSHZ$coeff_abs)
+SKNSHZ$H3K27ac_H3K4me1_H3K4me3 <- (SKNSHZ$H3K27ac_enhancer)*(SKNSHZ$H3K4me1)*(SKNSHZ$H3K4me3)
+SKNSHZ$H3K27ac_promoterH3K27ac_H3K4me1 <- (SKNSHZ$H3K27ac_enhancer)*(SKNSHZ$H3K27ac_promoter)*(SKNSHZ$H3K4me1)
+
+write.table(SKNSHZ, file = "SKNSHZ", sep = "\t", row.names = FALSE, quote = FALSE)
+
+SKNSHZ <- read.delim("SKNSHZ")
+summarizeColumns(SKNSHZ)
+
+
+#standardizing variables
+H1Z <- H1[1:2]
+H1Z$H3K4me1 <- ((H1$H3K4me1-mean(H1$H3K4me1))/sd(H1$H3K4me1))
+H1Z$eQTL_Zscore <- H1$eQTL_Zscore
+H1Z$coeff_abs <- H1$coeff_abs
+H1Z$H3K27ac_promoter <- ((H1$H3K27ac_promoter-mean(H1$H3K27ac_promoter))/sd(H1$H3K27ac_promoter))
+H1Z$p300 <- ((H1$p300-mean(H1$p300))/sd(H1$p300))
+
+H1Z$H3K27ac_enhancer <- H1$H3K27ac_enhancer
+H1Z$H3K4me3 <- H1$H3K4me3
+H1Z$nearest <- H1$nearest
+H1Z$intronic_target <- H1$intronic
+
+#creating interaction variables
+H1Z$H3K27ac_H3K4me1 <- (H1Z$H3K27ac_enhancer)*(H1Z$H3K4me1)
+H1Z$H3K27ac_H3K4me3 <- (H1Z$H3K27ac_enhancer)*(H1Z$H3K4me3)
+H1Z$H3K27ac_promoterH3K27ac <- (H1Z$H3K27ac_enhancer)*(H1Z$H3K27ac_promoter)
+H1Z$H3K4me1_H3K4me3 <- (H1Z$H3K4me1)*(H1Z$H3K4me3)
+H1Z$H3K4me1_promoterH3K27ac <- (H1Z$H3K27ac_promoter)*(H1Z$H3K4me1)
+H1Z$eQTL_eQTL_coeff_abs <- (H1Z$eQTL_Zscore)*(H1Z$coeff_abs)
+H1Z$H3K27ac_H3K4me1_H3K4me3 <- (H1Z$H3K27ac_enhancer)*(H1Z$H3K4me1)*(H1Z$H3K4me3)
+H1Z$H3K27ac_promoterH3K27ac_H3K4me1 <- (H1Z$H3K27ac_enhancer)*(H1Z$H3K27ac_promoter)*(H1Z$H3K4me1)
+
+write.table(H1Z, file = "H1Z", sep = "\t", row.names = FALSE, quote = FALSE)
+
+H1Z <- read.delim("H1Z")
+summarizeColumns(H1Z)
+```
+
+
+### READ DATA
+
+```{r}
+HepG2Z <- read.delim("HepG2Z")
+HepG2Z$gene<-as.factor(HepG2Z$gene)
+HepG2Z$truelink<-factor(HepG2Z$truelink, levels = 0:1)
+
+K562Z <- read.delim("K562Z")
+K562Z$gene<-as.factor(K562Z$gene)
+K562Z$truelink<-factor(K562Z$truelink, levels = 0:1)
+
+MCF7Z <- read.delim("MCF7Z")
+MCF7Z$gene<-as.factor(MCF7Z$gene)
+MCF7Z$truelink<-factor(MCF7Z$truelink, levels = 0:1)
+
+tripleZ <- read.delim("tripleZ")
+tripleZ$gene<-as.factor(tripleZ$gene)
+tripleZ$truelink<-factor(tripleZ$truelink, levels = 0:1)
+
+HepG2_K562Z <- read.delim("HepG2_K562Z")
+HepG2_K562Z$gene<-as.factor(HepG2_K562Z$gene)
+HepG2_K562Z$truelink<-factor(HepG2_K562Z$truelink, levels = 0:1)
+
+HepG2_HCT116Z <- read.delim("HepG2_HCT116Z")
+HepG2_HCT116Z$gene<-as.factor(HepG2_HCT116Z$gene)
+HepG2_HCT116Z$truelink<-factor(HepG2_HCT116Z$truelink, levels = 0:1)
+
+K562_HCT116Z <- read.delim("K562_HCT116Z")
+K562_HCT116Z$gene<-as.factor(K562_HCT116Z$gene)
+K562_HCT116Z$truelink<-factor(K562_HCT116Z$truelink, levels = 0:1)
+
+GM12878Z <- read.delim("GM12878Z")
+GM12878Z$gene<-as.factor(GM12878Z$gene)
+GM12878Z <- GM12878Z[,-1]
+
+HeLaZ <- read.delim("HeLaZ")
+HeLaZ$gene<-as.factor(HeLaZ$gene)
+HeLaZ <- HeLaZ[,-1]
+
+SKNSHZ <- read.delim("SKNSHZ")
+SKNSHZ$gene<-as.factor(SKNSHZ$gene)
+SKNSHZ <- SKNSHZ[,-1]
+
+#H1Z <- read.delim("H1Z")
+#H1Z$gene<-as.factor(H1Z$gene)
+#H1Z <- H1Z[,-1]
+```
+
+### Feature Engineering
+
+
+## K562 balanced rf model with Blockings
+
+```{r}
+k562_tsk <- makeClassifTask(id = "Enhancer-Gene Links", data = K562Z, target = "truelink", blocking = factor(K562Z$gene), positive = 1)
+
+k562_tsk <- dropFeatures(k562_tsk, features = c("gene")); k562_tsk
+
+rdesc <- makeResampleDesc("RepCV", reps=30L, folds = 3L, blocking.cv=T)
+
+rfbal.lrn <- makeLearner("classif.randomForest", fix.factors.prediction = TRUE,
+                        predict.type = "prob", par.vals = list(classwt=c(0.87,0.13), importance=TRUE))
+
+#repeated cross validation
+
+set.seed(242) 
+r <- resample(learner = rfbal.lrn, task = k562_tsk, resampling = rdesc, measures = auc, show.info = FALSE)
+
+r$aggr #0.8275
+
+boxplot(r$measures.test$auc, main=paste('RF AUCs from 30 repeats of 3-fold CV (gene blocking)\nMean AUC:',round(r$aggr[[1]],digits=4)), xlab='K562')
+
+
+#validate in new cell lines
+set.seed(242)
+k562_rfbal <- train(rfbal.lrn, k562_tsk)
+
+predict1 <- predict(k562_rfbal, newdata = GM12878Z)
+predict2 <- predict(k562_rfbal, newdata = HeLaZ)
+predict3 <- predict(k562_rfbal, newdata = SKNSHZ)
+
+
+pred1 <- as.data.frame(predict1)
+pred2 <- as.data.frame(predict2)
+pred3 <- as.data.frame(predict3)
+
+write.table(pred1, file = "prediction of K562 on GM12878", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred2, file = "prediction of K562 on HeLa", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred3, file = "prediction of K562 on SKNSH", sep = "\t", row.names = FALSE, quote = FALSE)
+```
+
+## HepG2 balanced rf model with Blockings
+
+```{r}
+HepG2_tsk <- makeClassifTask(id = "Enhancer-Gene Links", data = HepG2Z, target = "truelink", blocking = factor(HepG2Z$gene), positive = 1)
+
+HepG2_tsk <- dropFeatures(HepG2_tsk, features = c("gene")); HepG2_tsk
+
+rdesc <- makeResampleDesc("RepCV", reps=30L, folds = 3L, blocking.cv=T)
+
+rfbal.lrn <- makeLearner("classif.randomForest", fix.factors.prediction = TRUE,
+                        predict.type = "prob", par.vals = list(classwt=c(0.89,0.11), importance=TRUE))
+
+#repeated cross validation
+
+set.seed(242) 
+r <- resample(learner = rfbal.lrn, task = HepG2_tsk, resampling = rdesc, measures = auc, show.info = FALSE)
+
+r$aggr #0.8978
+
+boxplot(r$measures.test$auc, main=paste('RF AUCs from 30 repeats of 3-fold CV (gene blocking)\nMean AUC:',round(r$aggr[[1]],digits=4)), xlab='HepG2')
+
+
+#validate in new cell lines
+set.seed(242)
+HepG2_rfbal <- train(rfbal.lrn, HepG2_tsk)
+
+predict1 <- predict(HepG2_rfbal, newdata = GM12878Z)
+predict2 <- predict(HepG2_rfbal, newdata = HeLaZ)
+predict3 <- predict(HepG2_rfbal, newdata = SKNSHZ)
+
+
+pred1 <- as.data.frame(predict1)
+pred2 <- as.data.frame(predict2)
+pred3 <- as.data.frame(predict3)
+
+write.table(pred1, file = "prediction of HepG2 on GM12878", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred2, file = "prediction of HepG2 on HeLa", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred3, file = "prediction of HepG2 on SKNSH", sep = "\t", row.names = FALSE, quote = FALSE)
+
+```
+
+## HepG2+K562 balanced rf model with Blockings
+
+```{r}
+HepG2_K562_tsk <- makeClassifTask(id = "Enhancer-Gene Links", data = HepG2_K562Z, target = "truelink", blocking = factor(HepG2_K562Z$gene), positive = 1)
+
+HepG2_K562_tsk <- dropFeatures(HepG2_K562_tsk, features = c("gene")); HepG2_K562_tsk
+
+rdesc <- makeResampleDesc("RepCV", reps=30L, folds = 3L, blocking.cv=T)
+
+rfbal.lrn <- makeLearner("classif.randomForest", fix.factors.prediction = TRUE,
+                        predict.type = "prob", par.vals = list(classwt=c(0.85,0.15), importance=TRUE))
+
+#repeated cross validation
+
+set.seed(242) 
+r <- resample(learner = rfbal.lrn, task = HepG2_K562_tsk, resampling = rdesc, measures = auc, show.info = FALSE)
+
+r$aggr #0.8800
+
+boxplot(r$measures.test$auc, main=paste('RF AUCs from 30 repeats of 3-fold CV (gene blocking)\nMean AUC:',round(r$aggr[[1]],digits=4)), xlab='HepG2_K562')
+
+
+#validate in new cell lines
+set.seed(242)
+HepG2_K562_rfbal <- train(rfbal.lrn, HepG2_K562_tsk)
+
+predict1 <- predict(HepG2_K562_rfbal, newdata = GM12878Z)
+predict2 <- predict(HepG2_K562_rfbal, newdata = HeLaZ)
+predict3 <- predict(HepG2_K562_rfbal, newdata = SKNSHZ)
+
+
+pred1 <- as.data.frame(predict1)
+pred2 <- as.data.frame(predict2)
+pred3 <- as.data.frame(predict3)
+
+write.table(pred1, file = "prediction of HepG2_K562 on GM12878", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred2, file = "prediction of HepG2_K562 on HeLa", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred3, file = "prediction of HepG2_K562 on SKNSH", sep = "\t", row.names = FALSE, quote = FALSE)
+
+```
+
+## HepG2+K562+HCT116 balanced rf model with Blockings
+
+```{r}
+triple_tsk <- makeClassifTask(id = "Enhancer-Gene Links", data = tripleZ, target = "truelink", blocking = factor(tripleZ$gene), positive = 1)
+
+triple_tsk <- dropFeatures(triple_tsk, features = c("gene")); triple_tsk
+
+rdesc <- makeResampleDesc("RepCV", reps=30L, folds = 3L, blocking.cv=T)
+
+rfbal.lrn <- makeLearner("classif.randomForest", fix.factors.prediction = TRUE,
+                        predict.type = "prob", par.vals = list(classwt=c(0.84,0.16), importance=TRUE))
+
+#repeated cross validation
+
+set.seed(242) 
+r <- resample(learner = rfbal.lrn, task = triple_tsk, resampling = rdesc, measures = auc, show.info = FALSE)
+
+r$aggr #0.8829
+
+boxplot(r$measures.test$auc, main=paste('RF AUCs from 30 repeats of 3-fold CV (gene blocking)\nMean AUC:',round(r$aggr[[1]],digits=4)), xlab='triple')
+
+
+#validate in new cell lines
+set.seed(242)
+triple_rfbal <- train(rfbal.lrn, triple_tsk)
+
+predict1 <- predict(triple_rfbal, newdata = GM12878Z)
+predict2 <- predict(triple_rfbal, newdata = HeLaZ)
+predict3 <- predict(triple_rfbal, newdata = SKNSHZ)
+
+
+pred1 <- as.data.frame(predict1)
+pred2 <- as.data.frame(predict2)
+pred3 <- as.data.frame(predict3)
+
+write.table(pred1, file = "prediction of triple on GM12878", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred2, file = "prediction of triple on HeLa", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(pred3, file = "prediction of triple on SKNSH", sep = "\t", row.names = FALSE, quote = FALSE)
+
+```
+
+## Look at the score distributions
+
+```{r}
+#K562
+pred1.K562 <- read.delim("prediction of K562 on GM12878")
+pred2.K562 <- read.delim("prediction of K562 on HeLa")
+pred3.K562 <- read.delim("prediction of K562 on SKNSH")
+
+
+hist(pred1.K562$prob.1, breaks = 100)
+table(pred1.K562$response)
+#       0        1 
+# 16929820   424325  
+mean(pred1.K562$prob.1) #0.1337346
+
+hist(pred2.K562$prob.1, breaks = 100)
+table(pred2.K562$response)
+#       0        1 
+#16814473   539672 
+mean(pred2.K562$prob.1) #0.0947001
+
+hist(pred3.K562$prob.1, breaks = 100)
+table(pred3.K562$response)
+#       0        1 
+#16809243   544902 
+mean(pred3.K562$prob.1) #0.1179739
+
+
+#HepG2
+pred1.HepG2 <- read.delim("prediction of HepG2 on GM12878")
+pred2.HepG2 <- read.delim("prediction of HepG2 on HeLa")
+pred3.HepG2 <- read.delim("prediction of HepG2 on SKNSH")
+
+hist(pred1.HepG2$prob.1, breaks = 100)
+table(pred1.HepG2$response)
+#       0        1 
+#17096184   257961 
+mean(pred1.HepG2$prob.1) # 0.1051205
+
+hist(pred2.HepG2$prob.1, breaks = 100)
+table(pred2.HepG2$response)
+#       0        1 
+#17002392   351753  
+mean(pred2.HepG2$prob.1) #0.1125733
+
+hist(pred3.HepG2$prob.1, breaks = 100)
+table(pred3.HepG2$response)
+#       0        1 
+#17117713   236432 
+mean(pred3.HepG2$prob.1) #0.1026961
+
+
+#K562_HepG2
+pred1.HepG2_K562 <- read.delim("prediction of HepG2_K562 on GM12878")
+pred2.HepG2_K562 <- read.delim("prediction of HepG2_K562 on HeLa")
+pred3.HepG2_K562 <- read.delim("prediction of HepG2_K562 on SKNSH")
+
+hist(pred1.HepG2_K562$prob.1, breaks = 100)
+table(pred1.HepG2_K562$response)
+#       0        1 
+#16331920  1022225 
+mean(pred1.HepG2_K562$prob.1) # 0.1972235
+
+hist(pred2.HepG2_K562$prob.1, breaks = 100)
+table(pred2.HepG2_K562$response)
+#       0        1 
+#16498996   855149 
+mean(pred2.HepG2_K562$prob.1) #0.1700577
+
+hist(pred3.HepG2_K562$prob.1, breaks = 100)
+table(pred3.HepG2_K562$response)
+#       0        1 
+#16221270  1132875 
+mean(pred3.HepG2_K562$prob.1) #0.1893235
+
+#triple
+pred1.triple <- read.delim("prediction of triple on GM12878")
+pred2.triple <- read.delim("prediction of triple on HeLa")
+pred3.triple <- read.delim("prediction of triple on SKNSH")
+
+hist(pred1.triple$prob.1, breaks = 100)
+table(pred1.triple$response)
+#       0        1 
+#16790180   563965  
+mean(pred1.triple$prob.1) # 0.1536895
+
+hist(pred2.triple$prob.1, breaks = 100)
+table(pred2.triple$response)
+#       0        1 
+#16610086   744059 
+mean(pred2.triple$prob.1) #0.1689431
+
+hist(pred3.triple$prob.1, breaks = 100)
+table(pred3.triple$response)
+#       0        1 
+#16850231   503914 
+mean(pred3.triple$prob.1) #0.1462848
+
+
+p1 <- data.frame(training = "K562", validation = "GM12878", scores = pred1.K562$prob.1, link_id = 1:17354145)
+p2 <- data.frame(training = "K562", validation = "HeLa", scores = pred2.K562$prob.1, link_id = 1:17354145)
+p3 <- data.frame(training = "K562", validation = "SKNSH", scores = pred3.K562$prob.1, link_id = 1:17354145)
+p4 <- data.frame(training = "HepG2", validation = "GM12878", scores = pred1.HepG2$prob.1, link_id = 1:17354145)
+p5 <- data.frame(training = "HepG2", validation = "HeLa", scores = pred2.HepG2$prob.1, link_id = 1:17354145)
+p6 <- data.frame(training = "HepG2", validation = "SKNSH", scores = pred3.HepG2$prob.1, link_id = 1:17354145)
+p7 <- data.frame(training = "HepG2+K562", validation = "GM12878", scores = pred1.HepG2_K562$prob.1, link_id = 1:17354145)
+p8 <- data.frame(training = "HepG2+K562", validation = "HeLa", scores = pred2.HepG2_K562$prob.1, link_id = 1:17354145)
+p9 <- data.frame(training = "HepG2+K562", validation = "SKNSH", scores = pred3.HepG2_K562$prob.1, link_id = 1:17354145)
+p10 <- data.frame(training = "triple", validation = "GM12878", scores = pred1.triple$prob.1, link_id = 1:17354145)
+p11 <- data.frame(training = "triple", validation = "HeLa", scores = pred2.triple$prob.1, link_id = 1:17354145)
+p12 <- data.frame(training = "triple", validation = "SKNSH", scores = pred3.triple$prob.1, link_id = 1:17354145)
+total <- rbind(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12)
+total$ID <- rep(c("K562 on GM12878", "K562 on HeLa", "K562 on SKNSH", "HepG2 on GM12878", "HepG2 on HeLa", "HepG2 on SKNSH", "HepG2+K562 on GM12878", "HepG2+K562 on HeLa", "HepG2+K562 on SKNSH", "triple on GM12878", "triple on HeLa", "triple on SKNSH"), each=17354145)
+
+#write.table(total, file = "total_with_triple", sep = "\t", row.names = FALSE, quote = FALSE)
+```
+
+
+```{r}
+#total <- read.delim("total")
+total <- read.delim("total_with_triple")
+
+
+#boxplot
+ggplot(total, aes(x=training, y=scores, fill=validation)) +
+  geom_boxplot()
+
+#density plot
+#p2 <- ggplot(data=total, aes(x=scores, group=ID, fill=ID)) +
+#    geom_density(adjust=1.5, alpha=.4) +
+#    theme_ipsum()
+#p2
+
+#d1 <- density(pred1.K562$prob.1)
+#plot(d1)
+
+#histogram
+p <- total %>%
+  ggplot( aes(x=scores, fill=training)) +
+    geom_histogram( color="#e9ecef", alpha=0.6, position = 'identity') +
+    scale_fill_manual(values=c("#69b3a2", "#404080", "#d4bf08")) +
+    theme_ipsum() +
+    labs(fill="")+
+    facet_grid(validation~.)
+p
+
+#cumulative plot
+ggplot(total, aes(x = scores, color=ID)) + stat_ecdf(geom = "step")+
+labs(title="Prob.1 Cumulative \n Density Function",
+     y = "F(scores)", x="Scores")
+
+#t-test
+t.test(pred1.K562$prob.1, pred1.HepG2$prob.1, paired = TRUE)
+#t = 1009.1, df = 17354144, p-value < 2.2e-16
+#alternative hypothesis: true difference in means is not equal to 0
+#95 percent confidence interval:
+# 0.02855854 0.02866969
+#sample estimates:
+#mean of the differences 
+#             0.02861412 
+
+t.test(pred2.K562$prob.1, pred2.HepG2$prob.1, paired = TRUE)
+#t = -621.21, df = 17354144, p-value < 2.2e-16
+#alternative hypothesis: true difference in means is not equal to 0
+#95 percent confidence interval:
+# -0.01792961 -0.01781683
+#sample estimates:
+#mean of the differences 
+#            -0.01787322 
+
+t.test(pred3.K562$prob.1, pred3.HepG2$prob.1, paired = TRUE)
+#t = 540.3, df = 17354144, p-value < 2.2e-16
+#alternative hypothesis: true difference in means is not equal to 0
+#95 percent confidence interval:
+# 0.01522238 0.01533322
+#sample estimates:
+#mean of the differences 
+#              0.0152778 
+
+```
+
+
