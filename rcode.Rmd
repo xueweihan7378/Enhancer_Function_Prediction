@@ -1,0 +1,106 @@
+---
+title: "Cell Line List"
+author: "Xuewei Han"
+date: "12/9/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library("readr")
+library("dplyr")
+
+setwd("/Users/xueweihan/OneDrive - University of Southern California/Biostats/thesis/cell line list")
+```
+
+## Read dataset
+```{r, include=FALSE}
+f1 <- read_tsv("Feature1_H2K27ac_Annotation.tsv", skip = 1)
+colnames(f1) = c("ID","Accession", "Target","Biosample_term_name","Description","Lab","Project","Status","Organism","Life_stage","Age", "Age_unit","Sofeware")
+
+f2 <- read_tsv("Feature2_H3K4me1_ChIP-seq.tsv", skip = 1)
+colnames(f2) = c("ID", "Accession","Assay_name","Assay_title","Target","Target_gene_symbol","Biosample_Summary", "Biosample_term_name")
+
+f3 <- read_tsv("Feature3_H3K4me3_Annotation.tsv", skip = 1)
+colnames(f3) = c("ID", "Accession", "Target", "Biosample_term_name","Description","Lab","Project","Status","Organism","Life_stage","Age", "Age_unit","Sofeware")
+
+f4 <- read_tsv("Feature4_EP300_ChIP-seq.tsv", skip = 1)
+colnames(f4) = c("ID", "Accession","Assay_name","Assay_title","Target","Target_gene_symbol","Biosample_Summary", "Biosample_term_name")
+
+f7 <- read_tsv("Feature7_H3K27ac_ChIP-seq.tsv", skip = 1)
+colnames(f7) = c("ID", "Accession","Assay_name","Assay_title","Target","Target_gene_symbol","Biosample_Summary", "Biosample_term_name")
+```
+
+
+## Filter
+```{r}
+## f1 
+# only keep obs with Description including "high H3K27ac for"
+f1_filter <- dplyr::filter(f1, grepl('high H3K27ac for', Description)) # 34 rows
+
+## f2
+# Biosample summary field matches the Biosample term name field
+f2_filter <- f2[f2$Biosample_Summary == f2$Biosample_term_name, ] # 47 rows
+
+## f3
+# only keep obs with Description including "high H3K4me3 for"
+f3_filter <- dplyr::filter(f3, grepl('high H3K4me3 for', Description)) # 49 rows
+
+
+## f4
+# Biosample summary field matches the Biosample term name field
+f4_filter <- f4[f4$Biosample_Summary == f4$Biosample_term_name, ] # 15 rows
+
+## f7
+# Biosample summary field matches the Biosample term name field
+f7_filter <- f7[f7$Biosample_Summary == f7$Biosample_term_name, ] # 46 rows
+```
+
+
+## final cell line list
+```{r}
+l1 <- data.frame(f1_filter$Biosample_term_name, "Feature1")
+colnames(l1) <- c("Cell_line", "Features")
+
+l2 <- data.frame(f2_filter$Biosample_term_name, "Feature2")
+colnames(l2) <- c("Cell_line", "Features")
+
+l3 <- data.frame(f3_filter$Biosample_term_name, "Feature3")
+colnames(l3) <- c("Cell_line", "Features")
+
+l4 <- data.frame(f4_filter$Biosample_term_name, "Feature4")
+colnames(l4) <- c("Cell_line", "Features")
+l4 <- l4[order(l4$Cell_line),]
+
+l7 <- data.frame(f7_filter$Biosample_term_name, "Feature7")
+colnames(l7) <- c("Cell_line", "Features")
+
+
+total <- rbind(l1, l2, l3, l4, l7)
+total <- total[order(total$Cell_line), ] # 191 obs
+total <- unique(total) # 172 obs
+total$num <- ave(total$Features, total$Cell_line, FUN = seq_along)
+
+total.wide <- reshape(total, idvar ="Cell_line", timevar = "num" , v.names = "Features",direction = "wide")
+
+# list of cell lines that have data for all of the features
+list_all_features <- total.wide[complete.cases(total.wide), ]
+list_all_features
+
+# list of cell lines with all other four features except for EP300
+list_no_EP300 <- subset(total.wide, total.wide$Features.4 == "Feature7")
+list_no_EP300
+
+final_list_all <- list_all_features$Cell_line
+final_list_all # 7
+
+final_list_noEP300 <- list_no_EP300$Cell_line
+final_list_noEP300 # 22
+
+```
+
+
+
