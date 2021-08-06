@@ -1,0 +1,627 @@
+---
+title: "Triple_results"
+author: "Xuewei Han"
+date: "3/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(mlr)
+library(randomForest)
+library(FSelectorRcpp)
+library(FSelector)
+library(ggpubr)
+
+library(ggplot2)
+library(dplyr)
+library(PerformanceAnalytics)
+
+setwd("/Users/xueweihan/OneDrive - University of Southern California/Biostats/thesis/missing feature models")
+```
+
+
+### READ DATA
+
+```{r}
+HepG2Z <- read.delim("HepG2Z")
+HepG2Z$gene <- as.factor(HepG2Z$gene)
+HepG2Z$truelink <- factor(HepG2Z$truelink, levels = 0:1)
+
+K562Z <- read.delim("K562Z")
+K562Z$gene <- as.factor(K562Z$gene)
+K562Z$truelink <- factor(K562Z$truelink, levels = 0:1)
+
+MCF7Z <- read.delim("MCF7Z")
+MCF7Z$gene <- as.factor(MCF7Z$gene)
+MCF7Z$truelink <- factor(MCF7Z$truelink, levels = 0:1)
+
+HCT116Z <- read.delim("HCT116Z")
+HCT116Z$gene <- as.factor(HCT116Z$gene)
+HCT116Z$truelink <- factor(HCT116Z$truelink, levels = 0:1)
+
+tripleZ <- read.delim("tripleZ")
+tripleZ$gene <- as.factor(tripleZ$gene)
+tripleZ$truelink <- factor(tripleZ$truelink, levels = 0:1)
+
+HepG2_K562Z <- read.delim("HepG2_K562Z")
+HepG2_K562Z$gene <- as.factor(HepG2_K562Z$gene)
+HepG2_K562Z$truelink <- factor(HepG2_K562Z$truelink, levels = 0:1)
+
+HepG2_HCT116Z <- read.delim("HepG2_HCT116Z")
+HepG2_HCT116Z$gene <- as.factor(HepG2_HCT116Z$gene)
+HepG2_HCT116Z$truelink <- factor(HepG2_HCT116Z$truelink, levels = 0:1)
+
+K562_HCT116Z <- read.delim("K562_HCT116Z")
+K562_HCT116Z$gene <- as.factor(K562_HCT116Z$gene)
+K562_HCT116Z$truelink <- factor(K562_HCT116Z$truelink, levels = 0:1)
+
+```
+
+### Feature Engineering
+
+## univariate analysis for triple
+```{r}
+triple <- read.delim("triplev1")
+#creating interaction variables
+triple$H3K27ac_H3K4me1 <- (triple$H3K27ac_enhancer)*(triple$H3K4me1)
+triple$H3K27ac_H3K4me3 <- (triple$H3K27ac_enhancer)*(triple$H3K4me3)
+triple$H3K27ac_promoterH3K27ac <- (triple$H3K27ac_enhancer)*(triple$H3K27ac_promoter)
+triple$H3K4me1_H3K4me3 <- (triple$H3K4me1)*(triple$H3K4me3)
+triple$H3K4me1_promoterH3K27ac <- (triple$H3K27ac_promoter)*(triple$H3K4me1)
+triple$eQTL_eQTL_coeff_abs <- (triple$eQTL_Zscore)*(triple$coeff_abs)
+triple$H3K27ac_H3K4me1_H3K4me3 <- (triple$H3K27ac_enhancer)*(triple$H3K4me1)*(triple$H3K4me3)
+triple$H3K27ac_promoterH3K27ac_H3K4me1 <- (triple$H3K27ac_enhancer)*(triple$H3K27ac_promoter)*(triple$H3K4me1)
+
+#adjust feature format
+triple$truelink <- factor(triple$truelink)
+triple$gene <- factor(triple$gene)
+triple$H3K27ac_enhancer <- as.factor(triple$H3K27ac_enhancer)
+triple$H3K4me1 <- as.numeric(triple$H3K4me1)
+triple$H3K4me3 <- as.factor(triple$H3K4me3)
+triple$eQTL_Zscore <- as.numeric(triple$eQTL_Zscore)
+triple$nearest <- as.factor(triple$nearest)
+triple$intronic_target <- as.factor(triple$intronic_target)
+triple$coeff_abs <- as.numeric(triple$coeff_abs)
+triple$H3K27ac_promoter <- as.numeric(triple$H3K27ac_promoter)
+
+summarizeColumns(triple)
+
+#plot the connection with truelink and features
+par(mfrow=c(3,3))
+for(i in c("H3K4me1","eQTL_Zscore", "coeff_abs", "H3K27ac_promoter")){
+ plot(triple$truelink, triple[, i],cex=1, ylab=i, xlab="TrueLinks", main=paste("TrueLinks v.s.", i))
+}
+for(i in c("H3K27ac_enhancer","H3K4me3", "nearest", "intronic_target")){
+ plot(triple$truelink, triple[, i], cex=1, xlab="TrueLinks", ylab=i, main=paste("TrueLinks v.s.", i))
+}
+
+#distribution of numeric features
+par(mfrow=c(3,2))
+for(i in c("H3K4me1","eQTL_Zscore", "coeff_abs", "H3K27ac_promoter")){
+ hist(triple[, i],cex=1, ylab="..", xlab=i, main=paste("Distribution of", i))
+}
+
+#chi-square tests for binary features
+chisq.test(table(triple$H3K27ac_enhancer, triple$truelink))
+chisq.test(table(triple$H3K4me3, triple$truelink)) #not significant
+chisq.test(table(triple$nearest, triple$truelink))
+chisq.test(table(triple$intronic_target, triple$truelink))
+
+#correlation analysis
+corr <- cor(triple[c("H3K4me1","eQTL_Zscore", "coeff_abs", "H3K27ac_promoter")])
+round(corr,2)
+
+my_data <- triple[c("H3K4me1","eQTL_Zscore", "coeff_abs", "H3K27ac_promoter")]
+chart.Correlation(my_data, histogram=TRUE, pch=19)
+```
+
+## how to create *Z
+```{r}
+#standardizing variables
+tripleZ <- triple[11]
+#if blocking by gene or enhancer (otherwise skip)
+tripleZ$gene <- as.factor(triple$gene)
+
+tripleZ$H3K4me1 <- ((triple$H3K4me1-mean(triple$H3K4me1))/sd(triple$H3K4me1))
+tripleZ$eQTL_Zscore <- ((triple$eQTL_Zscore-mean(triple$eQTL_Zscore))/sd(triple$eQTL_Zscore))
+tripleZ$coeff_abs <- ((triple$coeff_abs-mean(triple$coeff_abs))/sd(triple$coeff_abs))
+tripleZ$H3K27ac_promoter <- ((triple$H3K27ac_promoter-mean(triple$H3K27ac_promoter))/sd(triple$H3K27ac_promoter))
+
+tripleZ$H3K27ac_enhancer <- triple$H3K27ac_enhancer
+tripleZ$H3K4me3 <- triple$H3K4me3
+tripleZ$nearest <- triple$nearest
+tripleZ$intronic_target <- triple$intronic
+tripleZ$truelink <- factor(tripleZ$truelink, levels = 0:1)
+
+#creating interaction variables
+tripleZ$H3K27ac_H3K4me1 <- (tripleZ$H3K27ac_enhancer)*(tripleZ$H3K4me1)
+tripleZ$H3K27ac_H3K4me3 <- (tripleZ$H3K27ac_enhancer)*(tripleZ$H3K4me3)
+tripleZ$H3K27ac_promoterH3K27ac <- (tripleZ$H3K27ac_enhancer)*(tripleZ$H3K27ac_promoter)
+tripleZ$H3K4me1_H3K4me3 <- (tripleZ$H3K4me1)*(tripleZ$H3K4me3)
+tripleZ$H3K4me1_promoterH3K27ac <- (tripleZ$H3K27ac_promoter)*(tripleZ$H3K4me1)
+tripleZ$eQTL_eQTL_coeff_abs <- (tripleZ$eQTL_Zscore)*(tripleZ$coeff_abs)
+tripleZ$H3K27ac_H3K4me1_H3K4me3 <- (tripleZ$H3K27ac_enhancer)*(tripleZ$H3K4me1)*(tripleZ$H3K4me3)
+tripleZ$H3K27ac_promoterH3K27ac_H3K4me1 <- (tripleZ$H3K27ac_enhancer)*(tripleZ$H3K27ac_promoter)*(tripleZ$H3K4me1)
+
+summarizeColumns(tripleZ)
+
+#write.table(tripleZ, file = "tripleZ", sep = "\t", row.names = FALSE, quote = FALSE)
+
+#tripleZ <- read.delim("tripleZ")
+#summarizeColumns(tripleZ)
+```
+
+
+### Machine Learning Models
+
+## Balanced Random Forest without blockings
+
+```{r}
+triple_tsk <- makeClassifTask(id = "Enhancer-Gene Links", data = tripleZ[-2,], target = "truelink")
+
+triple_tsk <- dropFeatures(triple_tsk, features = c("gene")); triple_tsk
+
+rdesc <- makeResampleDesc("RepCV", reps=30L, folds = 3L)
+
+#random forest
+
+rfbal.lrn <- makeLearner("classif.randomForest", fix.factors.prediction = TRUE,
+                        predict.type = "prob", par.vals = list(classwt=c(0.84,0.16), importance=TRUE))
+
+#repeated cross validation
+
+set.seed(242) 
+r <- resample(learner = rfbal.lrn, task = triple_tsk, resampling = rdesc, measures = auc, show.info = FALSE)
+
+r$aggr #0.9093
+```
+
+## Add Blockings
+
+```{r}
+triple_tsk <- makeClassifTask(id = "Enhancer-Gene Links", data = tripleZ, target = "truelink", blocking = factor(tripleZ$gene), positive = 1)
+
+triple_tsk <- dropFeatures(triple_tsk, features = c("gene")); triple_tsk
+
+rdesc <- makeResampleDesc("RepCV", reps=30L, folds = 3L, blocking.cv=T)
+
+rfbal.lrn <- makeLearner("classif.randomForest", fix.factors.prediction = TRUE,
+                        predict.type = "prob", par.vals = list(classwt=c(0.84,0.16), importance=TRUE))
+
+#repeated cross validation
+
+set.seed(242) 
+r <- resample(learner = rfbal.lrn, task = triple_tsk, resampling = rdesc, measures = auc, show.info = FALSE)
+
+r$aggr #0.8828948
+
+boxplot(r$measures.test$auc, main=paste('RF AUCs from 30 repeats of 3-fold CV (gene blocking)\nMean AUC:',round(r$aggr[[1]],digits=4)), xlab='triple')
+
+
+#test in other cell lines
+
+set.seed(242)
+triple_rfbal <- train(rfbal.lrn, triple_tsk)
+
+triple_predict_HepG2 <- predict(triple_rfbal, newdata = HepG2Z)
+auc_test <- performance(triple_predict_HepG2, measures = auc); auc_test #0.9483772
+
+triple_predict_K562 <- predict(triple_rfbal, newdata = K562Z)
+auc_test <- performance(triple_predict_K562, measures = auc); auc_test #0.7282708
+
+triple_predict_MCF7 <- predict(triple_rfbal, newdata = MCF7Z)
+auc_test <- performance(triple_predict_MCF7, measures = auc); auc_test #0.8691358
+
+triple_predict_HCT116 <- predict(triple_rfbal, newdata = HCT116Z)
+auc_test <- performance(triple_predict_HCT116, measures = auc); auc_test #0.8989922
+```
+
+### Feature Selection
+
+## filter methods
+
+*Results:*
+
+- "H3K27ac_H3K4me1", *Mean AUC=0.7166685*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", *Mean AUC=0.7421482*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", *Mean AUC=0.7541204*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", *Mean AUC=0.8315692*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", *Mean AUC=0.8653692*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", *Mean AUC=0.8614732*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", *Mean AUC=0.8686303*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", *Mean AUC=0.8680887*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", *Mean AUC=0.8643499*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", "H3K4me1_promoterH3K27ac", *Mean AUC=0.8623368*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", "H3K4me1_promoterH3K27ac", "H3K27ac_H3K4me3", *Mean AUC=0.8622063*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", "H3K4me1_promoterH3K27ac", "H3K27ac_H3K4me3", "eQTL_Zscore", *Mean AUC=0.8879639* *!!!*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", "H3K4me1_promoterH3K27ac", "H3K27ac_H3K4me3", "eQTL_Zscore", "coeff_abs", *Mean AUC=0.8880892*
+
+- "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", "H3K4me1_promoterH3K27ac", "H3K27ac_H3K4me3", "eQTL_Zscore", "coeff_abs", "eQTL_eQTL_coeff_abs", *Mean AUC=0.8886065*
+
+- full model, *Mean AUC=0.8799706*
+
+# calculating the feature importance
+```{r}
+
+#method1
+fv = generateFilterValuesData(triple_tsk, method = "FSelector_information.gain")
+fv$data
+
+plotFilterValues(fv)
+
+fv$data[which(value >0)][order(value, decreasing = TRUE)]
+fv$data[which(value >0)][order(value, decreasing = TRUE)]$name
+```
+*List of features with importance>0: (14)*
+
+"H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", "H3K4me1_promoterH3K27ac", "H3K27ac_H3K4me3", "eQTL_Zscore", "coeff_abs", "eQTL_eQTL_coeff_abs"      
+
+*List of full features:*
+"H3K4me1", "eQTL_Zscore", "coeff_abs", "H3K27ac_promoter", "H3K27ac_enhancer", "H3K4me3", "nearest", "intronic_target", "H3K27ac_H3K4me1", "H3K27ac_H3K4me3", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K4me1_promoterH3K27ac", "eQTL_eQTL_coeff_abs", "H3K27ac_H3K4me1_H3K4me3", "H3K27ac_promoterH3K27ac_H3K4me1"
+
+
+# Selecting a feature subset
+```{r}
+filtered.task = filterFeatures(triple_tsk, fval = fv, threshold =0.01)
+filtered.task # "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest", "H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_enhancer", "intronic_target", "H3K4me1_promoterH3K27ac", "H3K27ac_H3K4me3", "eQTL_Zscore", "coeff_abs", "eQTL_eQTL_coeff_abs"   
+set.seed(242)
+r = resample(learner = rfbal.lrn, task = filtered.task, resampling = rdesc, measures = auc, show.info = FALSE)
+r$aggr #0.8886065
+
+filtered.task = filterFeatures(triple_tsk, fval = fv, perc = 0.25)
+filtered.task # "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac_H3K4me1", "H3K27ac_H3K4me1_H3K4me3", "nearest"
+set.seed(242)
+r = resample(learner = rfbal.lrn, task = filtered.task, resampling = rdesc, measures = auc, show.info = FALSE)
+r$aggr #0.8315692
+
+
+# first eight features
+triple_tsk_drop = dropFeatures(triple_tsk, features = c("eQTL_Zscore", "coeff_abs", "H3K27ac_promoter", "H3K4me3", "intronic_target", "H3K27ac_H3K4me3", "H3K4me1_promoterH3K27ac", "eQTL_eQTL_coeff_abs"))
+set.seed(242) 
+r = resample(learner = rfbal.lrn, task = triple_tsk_drop, resampling = rdesc, measures = auc, show.info = FALSE)
+print(paste("Mean AUC :", round(r$aggr,digits=7)))
+
+#test in other cell lines
+set.seed(242)
+triple_rfbal = train(rfbal.lrn, triple_tsk_drop)
+
+triple_predict_HepG2 <- predict(triple_rfbal, newdata = HepG2Z)
+auc_test <- performance(triple_predict_HepG2, measures = auc); auc_test
+
+triple_predict_K562 <- predict(triple_rfbal, newdata = K562Z)
+auc_test <- performance(triple_predict_K562, measures = auc); auc_test
+
+triple_predict_MCF7 <- predict(triple_rfbal, newdata = MCF7Z)
+auc_test <- performance(triple_predict_MCF7, measures = auc); auc_test
+
+triple_predict_HCT116 <- predict(triple_rfbal, newdata = HCT116Z)
+auc_test <- performance(triple_predict_HCT116, measures = auc); auc_test
+```
+
+# Fuse a learner with a filter method
+```{r}
+lrn = makeFilterWrapper(learner = "classif.randomForest", fw.method ="FSelector_information.gain", fw.abs = 2)
+r = resample(learner = lrn, task = triple_tsk, resampling =rdesc, show.info = FALSE, models = TRUE)
+r$aggr
+sfeats = sapply(r$models, getFilteredFeatures)
+table(sfeats)
+
+#               H3K27ac_H3K4me1         H3K27ac_H3K4me1_H3K4me3         H3K27ac_promoterH3K27ac H3K27ac_promoterH3K27ac_H3K4me1 
+#                             62                              13                              18                              33 
+#                        H3K4me1                 H3K4me1_H3K4me3                 intronic_target                         nearest 
+#                             17                               7                               2                              28 
+```
+# Tuning the size of the feature subset
+```{r}
+lrn = makeFilterWrapper(learner = "classif.randomForest", fw.method ="FSelector_information.gain")
+ps = makeParamSet(makeDiscreteParam("fw.perc", values = seq(0.2,0.5, 0.05)))
+res = tuneParams(lrn, task = triple_tsk, resampling = rdesc,par.set = ps,control = makeTuneControlGrid())
+
+as.data.frame(res$opt.path)
+
+lrn = makeFilterWrapper(learner = "classif.randomForest", fw.method ="FSelector_information.gain", fw.perc = res$x$fw.perc)
+mod = train(lrn, triple_tsk)
+getFilteredFeatures(mod)
+
+# first eight
+# "H3K4me1", "H3K27ac_enhancer", "nearest", "H3K27ac_H3K4me1", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K27ac_H3K4me1_H3K4me3", "H3K27ac_promoterH3K27ac_H3K4me1"
+```
+## Wrapper methods
+
+# Select a feature subset
+```{r}
+### Specify the search strategy
+ctrl = makeFeatSelControlRandom(maxit = 17L)
+ctrl
+
+### Resample description
+#rdesc = makeResampleDesc("Holdout")
+### Select features
+sfeats = selectFeatures(learner = "classif.randomForest", task =triple_tsk, resampling = rdesc, control = ctrl, show.info = FALSE)
+sfeats
+sfeats$x
+#[1] "H3K27ac_enhancerZ"                "eQTL_Zscore_Z"                    "coeff_abs_Z"                     
+#[4] "H3K27ac_promoterZ"                "p300Z"                            "nearest"                         
+#[7] "H3K27ac_H3K4me1Z"                 "H3K27ac_H3K4me1_H3K4me3Z"         "H3K27ac_promoterH3K27ac_H3K4me1Z"
+sfeats$y
+#0.06985424
+
+### Specify the search strategy
+ctrl = makeFeatSelControlSequential(method = "sfs", alpha = 0.02)
+### Select features
+sfeats = selectFeatures(learner = "classif.randomForest", task = triple_tsk, resampling = rdesc, control = ctrl,show.info = FALSE)
+sfeats
+analyzeFeatSelResult(sfeats)
+
+
+```
+
+# Fuse a learner with feature selection
+```{r}
+lrn = makeFeatSelWrapper("classif.randomForest", resampling = rdesc,control = makeFeatSelControlRandom(maxit = 10), show.info =
+FALSE)
+mod = train(lrn, task = triple_tsk)
+mod
+
+sfeats = getFeatSelResult(mod)
+sfeats
+
+sfeats$x
+
+r = resample(learner = lrn, task = triple_tsk, resampling =rdesc, models = TRUE,show.info = FALSE)
+r$aggr
+lapply(r$models, getFeatSelResult)
+```
+
+
+### Drop One Feature
+
+```{r}
+#feature list: "H3K4me1", "eQTL_Zscore", "coeff_abs", "H3K27ac_promoter", "H3K27ac_enhancer", "H3K4me3", "nearest", "intronic_target", "H3K27ac_H3K4me1", "H3K27ac_H3K4me3", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K4me1_promoterH3K27ac", "eQTL_eQTL_coeff_abs", "H3K27ac_H3K4me1_H3K4me3", "H3K27ac_promoterH3K27ac_H3K4me1"
+
+for(i in c("H3K4me1", "eQTL_Zscore", "coeff_abs", "H3K27ac_promoter", "H3K27ac_enhancer", "H3K4me3", "nearest", "intronic_target", "H3K27ac_H3K4me1", "H3K27ac_H3K4me3", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K4me1_promoterH3K27ac", "eQTL_eQTL_coeff_abs", "H3K27ac_H3K4me1_H3K4me3", "H3K27ac_promoterH3K27ac_H3K4me1")){
+  triple_tsk_drop = dropFeatures(triple_tsk, features = c(i))
+  set.seed(242) 
+  r = resample(learner = rfbal.lrn, task = triple_tsk_drop, resampling = rdesc, measures = auc, show.info = FALSE)
+  print(paste("Mean AUC if dropping", i, ":", round(r$aggr,digits=4)))
+  
+  set.seed(242)
+  triple_rfbal = train(rfbal.lrn, triple_tsk_drop)
+
+  triple_predict = predict(triple_rfbal, newdata = HepG2Z)
+  auc_test = performance(triple_predict, measures = auc); auc_test 
+  print(paste("AUC in HepG2:", round(auc_test,digits=4)))
+  
+  triple_predict = predict(triple_rfbal, newdata = K562Z)
+  auc_test = performance(triple_predict, measures = auc); auc_test
+  print(paste("AUC in K562:", round(auc_test,digits=4)))
+
+  triple_predict2 = predict(triple_rfbal, newdata = MCF7Z)
+  auc_test = performance(triple_predict2, measures = auc); auc_test
+  print(paste("AUC in MCF7:", round(auc_test,digits=4)))
+  
+  triple_predict2 = predict(triple_rfbal, newdata = HCT116Z)
+  auc_test = performance(triple_predict2, measures = auc); auc_test
+  print(paste("AUC in HCT116:", round(auc_test,digits=4)))
+}
+
+
+
+```
+*Results with validation in HepG2, K562, MCF7, and HCT116*
+[1] "Mean AUC if dropping H3K4me1 : 0.8816"
+[1] "AUC in HepG2: 0.9448"
+[1] "AUC in K562: 0.7531"
+[1] "AUC in MCF7: 0.8649"
+[1] "AUC in HCT116: 0.8836"
+[1] "Mean AUC if dropping eQTL_Zscore : 0.8816"
+[1] "AUC in HepG2: 0.9186"
+[1] "AUC in K562: 0.7215"
+[1] "AUC in MCF7: 0.8682"
+[1] "AUC in HCT116: 0.8879"
+[1] "Mean AUC if dropping coeff_abs : 0.8848"
+[1] "AUC in HepG2: 0.9468"
+[1] "AUC in K562: 0.79"
+[1] "AUC in MCF7: 0.8546"
+[1] "AUC in HCT116: 0.9059"
+[1] "Mean AUC if dropping H3K27ac_promoter : 0.8888"
+[1] "AUC in HepG2: 0.9411"
+[1] "AUC in K562: 0.7287"
+[1] "AUC in MCF7: 0.8836"
+[1] "AUC in HCT116: 0.909"
+[1] "Mean AUC if dropping H3K27ac_enhancer : 0.8833"
+[1] "AUC in HepG2: 0.946"
+[1] "AUC in K562: 0.7395"
+[1] "AUC in MCF7: 0.8662"
+[1] "AUC in HCT116: 0.8993"
+[1] "Mean AUC if dropping H3K4me3 : 0.8853"
+[1] "AUC in HepG2: 0.9478"
+[1] "AUC in K562: 0.7295"
+[1] "AUC in MCF7: 0.8688"
+[1] "AUC in HCT116: 0.9025"
+[1] "Mean AUC if dropping nearest : 0.866"
+[1] "AUC in HepG2: 0.915"
+[1] "AUC in K562: 0.7405"
+[1] "AUC in MCF7: 0.8174"
+[1] "AUC in HCT116: 0.8965"
+[1] "Mean AUC if dropping intronic_target : 0.8821"
+[1] "AUC in HepG2: 0.9451"
+[1] "AUC in K562: 0.7286"
+[1] "AUC in MCF7: 0.9148"
+[1] "AUC in HCT116: 0.8935"
+[1] "Mean AUC if dropping H3K27ac_H3K4me1 : 0.8832"
+[1] "AUC in HepG2: 0.9461"
+[1] "AUC in K562: 0.746"
+[1] "AUC in MCF7: 0.8687"
+[1] "AUC in HCT116: 0.8968"
+[1] "Mean AUC if dropping H3K27ac_H3K4me3 : 0.886"
+[1] "AUC in HepG2: 0.946"
+[1] "AUC in K562: 0.7363"
+[1] "AUC in MCF7: 0.8625"
+[1] "AUC in HCT116: 0.8927"
+[1] "Mean AUC if dropping H3K27ac_promoterH3K27ac : 0.8843"
+[1] "AUC in HepG2: 0.9461"
+[1] "AUC in K562: 0.7276"
+[1] "AUC in MCF7: 0.8632"
+[1] "AUC in HCT116: 0.9052"
+[1] "Mean AUC if dropping H3K4me1_H3K4me3 : 0.8826"
+[1] "AUC in HepG2: 0.9404"
+[1] "AUC in K562: 0.7515"
+[1] "AUC in MCF7: 0.8666"
+[1] "AUC in HCT116: 0.8902"
+[1] "Mean AUC if dropping H3K4me1_promoterH3K27ac : 0.8902"
+[1] "AUC in HepG2: 0.9482"
+[1] "AUC in K562: 0.7303"
+[1] "AUC in MCF7: 0.8762"
+[1] "AUC in HCT116: 0.8828"
+[1] "Mean AUC if dropping eQTL_eQTL_coeff_abs : 0.8847"
+[1] "AUC in HepG2: 0.9444"
+[1] "AUC in K562: 0.7252"
+[1] "AUC in MCF7: 0.8639"
+[1] "AUC in HCT116: 0.8961"
+[1] "Mean AUC if dropping H3K27ac_H3K4me1_H3K4me3 : 0.8848"
+[1] "AUC in HepG2: 0.944"
+[1] "AUC in K562: 0.7614"
+[1] "AUC in MCF7: 0.8748"
+[1] "AUC in HCT116: 0.9007"
+[1] "Mean AUC if dropping H3K27ac_promoterH3K27ac_H3K4me1 : 0.8875"
+[1] "AUC in HepG2: 0.9453"
+[1] "AUC in K562: 0.7281"
+[1] "AUC in MCF7: 0.8624"
+[1] "AUC in HCT116: 0.8962"
+
+
+### Only include one feature
+
+```{r}
+feature_name = names(tripleZ)[-c(1,6)]
+feature_name
+
+for(i in c("H3K4me1", "eQTL_Zscore", "coeff_abs", "H3K27ac_promoter", "H3K27ac_enhancer", "H3K4me3", "nearest", "intronic_target", "H3K27ac_H3K4me1", "H3K27ac_H3K4me3", "H3K27ac_promoterH3K27ac", "H3K4me1_H3K4me3", "H3K4me1_promoterH3K27ac", "eQTL_eQTL_coeff_abs", "H3K27ac_H3K4me1_H3K4me3", "H3K27ac_promoterH3K27ac_H3K4me1")){
+  triple_tsk_drop = dropFeatures(triple_tsk, features = feature_name[feature_name != i])
+  set.seed(242) 
+  r = resample(learner = rfbal.lrn, task = triple_tsk_drop, resampling = rdesc, measures = auc, show.info = FALSE)
+  print(paste("Mean AUC if only including", i, ":", round(r$aggr,digits=4)))
+  
+  set.seed(242)
+  triple_rfbal = train(rfbal.lrn, triple_tsk_drop)
+
+  triple_predict = predict(triple_rfbal, newdata = HepG2Z)
+  auc_test = performance(triple_predict, measures = auc); auc_test
+  print(paste("AUC in HepG2:", round(auc_test,digits=4)))
+  
+  triple_predict = predict(triple_rfbal, newdata = K562Z)
+  auc_test = performance(triple_predict, measures = auc); auc_test
+  print(paste("AUC in K562:", round(auc_test,digits=4)))
+
+  triple_predict2 = predict(triple_rfbal, newdata = MCF7Z)
+  auc_test = performance(triple_predict2, measures = auc); auc_test
+  print(paste("AUC in MCF7:", round(auc_test,digits=4)))
+  
+  triple_predict2 = predict(triple_rfbal, newdata = HCT116Z)
+  auc_test = performance(triple_predict2, measures = auc); auc_test
+  print(paste("AUC in HCT116:", round(auc_test,digits=4)))
+}
+
+```
+
+*Results:*
+[1] "Mean AUC if only including H3K4me1 : 0.7492" *!!!*
+[1] "AUC in HepG2: 0.6659"
+[1] "AUC in K562: 0.6145"
+[1] "AUC in MCF7: 0.6505"
+[1] "AUC in HCT116: 0.7875"
+[1] "Mean AUC if only including eQTL_Zscore : 0.5871"
+[1] "AUC in HepG2: 0.5639"
+[1] "AUC in K562: 0.6733"
+[1] "AUC in MCF7: 0.5872"
+[1] "AUC in HCT116: 0.6207"
+[1] "Mean AUC if only including coeff_abs : 0.6053"
+[1] "AUC in HepG2: 0.5869"
+[1] "AUC in K562: 0.5565"
+[1] "AUC in MCF7: 0.5262"
+[1] "AUC in HCT116: 0.6197"
+[1] "Mean AUC if only including H3K27ac_promoter : 0.4975"
+[1] "AUC in HepG2: 0.4483"
+[1] "AUC in K562: 0.4472"
+[1] "AUC in MCF7: 0.5014"
+[1] "AUC in HCT116: 0.4618"
+[1] "Mean AUC if only including H3K27ac_enhancer : 0.624"
+[1] "AUC in HepG2: 0.5"
+[1] "AUC in K562: 0.5"
+[1] "AUC in MCF7: 0.5"
+[1] "AUC in HCT116: 0.5"
+[1] "Mean AUC if only including H3K4me3 : 0.5"
+[1] "AUC in HepG2: 0.5"
+[1] "AUC in K562: 0.5"
+[1] "AUC in MCF7: 0.5"
+[1] "AUC in HCT116: 0.5"
+[1] "Mean AUC if only including nearest : 0.6824"
+[1] "AUC in HepG2: 0.8154" *!!!*
+[1] "AUC in K562: 0.5392"
+[1] "AUC in MCF7: 0.7293"
+[1] "AUC in HCT116: 0.7291"
+[1] "Mean AUC if only including intronic_target : 0.6128"
+[1] "AUC in HepG2: 0.684"
+[1] "AUC in K562: 0.5167"
+[1] "AUC in MCF7: 0.5322"
+[1] "AUC in HCT116: 0.6595"
+[1] "Mean AUC if only including H3K27ac_H3K4me1 : 0.7167" *!!!*
+[1] "AUC in HepG2: 0.6403"
+[1] "AUC in K562: 0.6811"
+[1] "AUC in MCF7: 0.8452" *!!!*
+[1] "AUC in HCT116: 0.7239"
+[1] "Mean AUC if only including H3K27ac_H3K4me3 : 0.605"
+[1] "AUC in HepG2: 0.5"
+[1] "AUC in K562: 0.5"
+[1] "AUC in MCF7: 0.5"
+[1] "AUC in HCT116: 0.5"
+[1] "Mean AUC if only including H3K27ac_promoterH3K27ac : 0.6993"
+[1] "AUC in HepG2: 0.7025"
+[1] "AUC in K562: 0.7095"
+[1] "AUC in MCF7: 0.7625"
+[1] "AUC in HCT116: 0.6923"
+[1] "Mean AUC if only including H3K4me1_H3K4me3 : 0.709" *!!!*
+[1] "AUC in HepG2: 0.6662"
+[1] "AUC in K562: 0.5502"
+[1] "AUC in MCF7: 0.5217"
+[1] "AUC in HCT116: 0.7971"
+[1] "Mean AUC if only including H3K4me1_promoterH3K27ac : 0.646"
+[1] "AUC in HepG2: 0.5168"
+[1] "AUC in K562: 0.5461"
+[1] "AUC in MCF7: 0.4678"
+[1] "AUC in HCT116: 0.4396"
+[1] "Mean AUC if only including eQTL_eQTL_coeff_abs : 0.5722"
+[1] "AUC in HepG2: 0.4606"
+[1] "AUC in K562: 0.6007"
+[1] "AUC in MCF7: 0.4878"
+[1] "AUC in HCT116: 0.5719"
+[1] "Mean AUC if only including H3K27ac_H3K4me1_H3K4me3 : 0.6841"
+[1] "AUC in HepG2: 0.6249"
+[1] "AUC in K562: 0.6794"
+[1] "AUC in MCF7: 0.6462"
+[1] "AUC in HCT116: 0.7129"
+[1] "Mean AUC if only including H3K27ac_promoterH3K27ac_H3K4me1 : 0.7214" *!!!*
+[1] "AUC in HepG2: 0.6731"
+[1] "AUC in K562: 0.6326"
+[1] "AUC in MCF7: 0.8173" *!!!*
+[1] "AUC in HCT116: 0.6886"
+
+
+
+
